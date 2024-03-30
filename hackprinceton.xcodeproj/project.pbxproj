@@ -13,6 +13,7 @@
 		85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */; };
 		85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DDB2BB8784B00B71FF0 /* Audio.swift */; };
 		85845DE12BB8894000B71FF0 /* whoosh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 85845DE02BB8894000B71FF0 /* whoosh.mp3 */; };
+		85845DE32BB898B100B71FF0 /* Verbwire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE22BB898B100B71FF0 /* Verbwire.swift */; };
 		85E008082BB7D114006F499A /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 85E008072BB7D114006F499A /* CodeViewer */; };
 		85FA24D32BB78B8200D79DFA /* ProvisionallyNamedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */; };
 		85FA24D52BB78B8200D79DFA /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */; };
@@ -34,6 +35,7 @@
 		85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIAPI.swift; sourceTree = "<group>"; };
 		85845DDB2BB8784B00B71FF0 /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		85845DE02BB8894000B71FF0 /* whoosh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whoosh.mp3; sourceTree = "<group>"; };
+		85845DE22BB898B100B71FF0 /* Verbwire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verbwire.swift; sourceTree = "<group>"; };
 		85FA24CF2BB78B8200D79DFA /* hackprinceton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackprinceton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionallyNamedApp.swift; sourceTree = "<group>"; };
 		85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_iOS.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				85845DDB2BB8784B00B71FF0 /* Audio.swift */,
 				8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */,
 				85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */,
+				85845DE22BB898B100B71FF0 /* Verbwire.swift */,
 				89F987732BB799B300117CF3 /* CommitDetailView.swift */,
 				85845DE02BB8894000B71FF0 /* whoosh.mp3 */,
 				85FA24D62BB78B8500D79DFA /* Assets.xcassets */,
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85845DE32BB898B100B71FF0 /* Verbwire.swift in Sources */,
 				89F9877E2BB8574F00117CF3 /* ARViewModel.swift in Sources */,
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
 				85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */,

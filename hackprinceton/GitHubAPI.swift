@@ -66,7 +66,7 @@ import Foundation
     // Function to fetch all branches
     func fetchAllBranches() async throws -> [BranchResponse] {
         let urlString = "\(repository.url)/branches"
-        return try await  performRequest(urlString: urlString)
+        return try await performRequest(urlString: urlString)
     }
 
     // Function to fetch a commit for a particular SHA
