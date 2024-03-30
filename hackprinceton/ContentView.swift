@@ -8,7 +8,6 @@
 import SwiftUI
 import RealityKit
 
-
 struct ContentView : View {
     @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/joyliu-q/hackprinceton")!
     @State var commit: Commit? = nil
@@ -24,6 +23,10 @@ struct ContentView : View {
         .environment(arViewModel)
         .onTapGesture { event in
             if let selectedCommit = arViewModel.lookupCommit(at: event) {
+                if selectedCommit == commit {
+                    playSound(sound: "whoosh",
+                              type: "mp3", numLoops: 1)
+                }
                 commit = selectedCommit
             }
         }
