@@ -29,7 +29,7 @@ struct Commit: Equatable, Hashable, Identifiable {
     // Optional metadata fields
     //    var verified: Bool
     
-    static let dummy = Commit(sha: "abcdjoy", parent: [], author: "joyliu-q", title: "Dummy Commit", description: "This is an example commit. Here I did nothing. Yay :D")
+    static let dummy = Commit(sha: "abcdjoy", parent: [], author: "joyliu-q", avatar_url: "https://avatars.githubusercontent.com/u/34288846?v=4", title: "Dummy Commit", description: "This is an example commit. Here I did nothing. Yay :D", date: Date())
     
 }
 
