@@ -16,33 +16,37 @@ struct ContentView : View {
     @State var feedbackGenerator = UISelectionFeedbackGenerator()
     
     var body: some View {
-        ARViewContainer(repository: githubAPI.repository)
-            .environment(arViewModel)
-            .onTapGesture { event in
-                if let selectedCommit = arViewModel.lookupCommit(at: event) {
-                    commit = selectedCommit
-                }
+        ZStack {
+            ARViewContainer(repository: githubAPI.repository)
+            CoachingView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .environment(arViewModel)
+        .onTapGesture { event in
+            if let selectedCommit = arViewModel.lookupCommit(at: event) {
+                commit = selectedCommit
             }
-            .ignoresSafeArea()
-            .sheet(item: $commit) { commit in
-                CommitDetailView(commit: commit)
-                .presentationDetents([.fraction(0.4), .large])
-                    .presentationDragIndicator(.visible)
-                    .presentationBackgroundInteraction(.enabled)
-                    .presentationBackground(.regularMaterial)
+        }
+        .ignoresSafeArea()
+        .sheet(item: $commit) { commit in
+            CommitDetailView(commit: commit, githubAPI: githubAPI)
+            .presentationDetents([.fraction(0.4), .large])
+                .presentationDragIndicator(.visible)
+                .presentationBackgroundInteraction(.enabled)
+                .presentationBackground(.regularMaterial)
+        }
+        .task {
+            do {
+                try await githubAPI.populate()
+            } catch {
+                logger.error("Failed to populate repo! \(error)")
             }
-            .task {
-                do {
-                    try await githubAPI.populate()
-                } catch {
-                    logger.error("Failed to populate repo! \(error)")
-                }
+        }
+        .onChange(of: commit) {
+            if commit != nil {
+                feedbackGenerator.selectionChanged()
             }
-            .onChange(of: commit) {
-                if let commit {
-                    feedbackGenerator.selectionChanged()
-                }
-            }
+        }
     }
 }
 
