@@ -25,21 +25,13 @@ func computeGraph(from repo: Repository) {
         }
     }
     
-    var s = 
+    var s = Set(repo.commits.values.filter { numEdges[$0.sha]! == 0 })
     var sorted = [Commit]()
     
-    // First, narrow down to orphans
-    for commit in repo.commits.values {
-        s.subtract(commit.parent)
-    }
-    
     while !s.isEmpty {
-        let sha = s.removeFirst()
-        guard let commit = repo.commits[sha] else {
-            print("Warning: \(sha) not found!")
-            continue
-        }
-        
+        let commit = s.removeFirst()
+        sorted.append(commit)
+
         
     }
 }
