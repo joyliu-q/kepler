@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6CEDA60C2BB883A300CBF403 /* Scene.usda in Resources */ = {isa = PBXBuildFile; fileRef = 6CEDA60B2BB8839400CBF403 /* Scene.usda */; };
+		6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 6CEDA60E2BB8910300CBF403 /* OpenAI */; };
 		8522F6A72BB79871000EC4AC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A62BB79871000EC4AC /* Model.swift */; };
 		8522F6A92BB7A607000EC4AC /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */; };
 		85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */; };
@@ -56,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */,
 				85E008082BB7D114006F499A /* CodeViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +150,7 @@
 			name = hackprinceton;
 			packageProductDependencies = (
 				85E008072BB7D114006F499A /* CodeViewer */,
+				6CEDA60E2BB8910300CBF403 /* OpenAI */,
 			);
 			productName = hackprinceton;
 			productReference = 85FA24CF2BB78B8200D79DFA /* hackprinceton.app */;
@@ -179,6 +182,7 @@
 			mainGroup = 85FA24C62BB78B8200D79DFA;
 			packageReferences = (
 				85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */,
+				6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 85FA24D02BB78B8200D79DFA /* Products */;
 			projectDirPath = "";
@@ -444,6 +448,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.6;
+			};
+		};
 		85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dwarvesf/CodeViewer";
@@ -455,6 +467,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6CEDA60E2BB8910300CBF403 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
 		85E008072BB7D114006F499A /* CodeViewer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */;
