@@ -13,7 +13,7 @@
 		85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */; };
 		85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DDB2BB8784B00B71FF0 /* Audio.swift */; };
 		85845DE12BB8894000B71FF0 /* whoosh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 85845DE02BB8894000B71FF0 /* whoosh.mp3 */; };
-		85E008082BB7D114006F499A /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 85E008072BB7D114006F499A /* CodeViewer */; };
+		85E008082BB7D114006F499A /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 85E008072BB7D114006F499A /* CodeViewer */; };
 		85FA24D32BB78B8200D79DFA /* ProvisionallyNamedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */; };
 		85FA24D52BB78B8200D79DFA /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */; };
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };

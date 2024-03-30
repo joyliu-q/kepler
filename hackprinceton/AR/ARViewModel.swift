@@ -37,7 +37,10 @@ func createEdgeEntity(color: UIColor) -> Entity {
             loadedEntity = try! Entity.load(named: "Scene", in: .main)
         }
         
-        let entity = loadedEntity!.findEntity(named: entityName)!.clone(recursive: true).children[0]
+        var entity = loadedEntity!.findEntity(named: entityName)!.clone(recursive: true)
+        if !entity.children.isEmpty {
+            entity = entity.children[0]
+        }
             
         // Optionally customize the entity further if needed
         var material = entity.components[ModelComponent.self]!.materials[0] as! PhysicallyBasedMaterial
@@ -57,6 +60,11 @@ func createEdgeEntity(color: UIColor) -> Entity {
         // Remember to set your CommitComponent to keep commit data associated
         entity.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.02)]))
         entity.components.set(CommitComponent(commit: commit))
+        
+        #if os(visionOS)
+        entity.components.set(InputTargetComponent())
+        #endif
+        
         return entity
     }
     
