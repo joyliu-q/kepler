@@ -37,7 +37,9 @@ class GitHubAPI {
             let author = commitResponse.commit.author.name
             let title = commitResponse.commit.title
             let description = commitResponse.commit.description
-            result[sha] = Commit(sha: sha, parent: parents, author: author, title: title, description: description)
+            let date = commitResponse.commit.author.date
+            let avatar_url = commitResponse.author.avatar_url
+            result[sha] = Commit(sha: sha, parent: parents, author: author, avatar_url: avatar_url, title: title, description: description, date: date)
         }
         
         self.repository.branches = branches.map { branchResponse in
@@ -80,7 +82,11 @@ class GitHubAPI {
         }
 
         let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(T.self, from: data)
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601  // Handling ISO 8601 formatted dates
+            
+        return try decoder.decode(T.self, from: data)
     }
 }
 
@@ -96,6 +102,7 @@ struct CommitResponse: Decodable {
     let sha: String
     let commit: CommitDetail
     let parents: [Parent]
+    let author: AuthorDeets
 }
 
 struct CommitDetail: Decodable {
@@ -113,9 +120,13 @@ struct CommitDetail: Decodable {
     }
 }
 
+struct AuthorDeets: Decodable {
+    let avatar_url: String
+}
+
 struct Author: Decodable {
     let name: String
-    let date: String
+    let date: Date
 }
 
 struct Parent: Decodable {
