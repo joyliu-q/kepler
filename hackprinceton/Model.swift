@@ -11,10 +11,10 @@ typealias Sha = String
 
 struct Commit: Equatable, Hashable {
     var sha: Sha
+    var parent: [Commit]
     
-    // TODO: do not support co-authors right now
-    var author: String // Have an Author struct
-    var title: String // If null its just "", we assume always has title
+    var author: String     // TODO: do not support co-authors right now, as well as different authors and committers
+    var title: String
     var description: String?
     
     // Displays
@@ -46,6 +46,44 @@ struct Repository {
         }
         return nil
     }
+    
+    func topologicalSortCommits() -> [Commit]? {
+            var visited = Set<Sha>()
+            var stack = [Commit]()
+            var childrenMap = Dictionary<Sha, [Commit]>()
+            
+            // Invert the parent relationship to a child relationship
+            for commit in self.commits.values {
+                for parent in commit.parent {
+                    childrenMap[parent.sha, default: []].append(commit)
+                }
+            }
+            
+            // Find the commits with no parents (roots)
+            let rootCommits = self.commits.values.filter { $0.parent.isEmpty }
+            
+            // Depth-First Search
+            func dfs(commit: Commit) {
+                visited.insert(commit.sha)
+                if let children = childrenMap[commit.sha] {
+                    for child in children {
+                        if !visited.contains(child.sha) {
+                            dfs(commit: child)
+                        }
+                    }
+                }
+                stack.append(commit)
+            }
+            
+            // Apply DFS for each root commit
+            for commit in rootCommits {
+                if !visited.contains(commit.sha) {
+                    dfs(commit: commit)
+                }
+            }
+            
+            return stack.reversed()  // The topologically sorted commits
+        }
 }
 
 

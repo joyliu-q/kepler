@@ -17,6 +17,7 @@
 
 /* Begin PBXFileReference section */
 		8522F6A62BB79871000EC4AC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		8522F6A82BB7A527000EC4AC /* Request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		85FA24CF2BB78B8200D79DFA /* hackprinceton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackprinceton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85FA24D22BB78B8200D79DFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85FA24D42BB78B8200D79DFA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +41,7 @@
 		85FA24C62BB78B8200D79DFA = {
 			isa = PBXGroup;
 			children = (
+				8522F6A82BB7A527000EC4AC /* Request.swift */,
 				89F987752BB79C1100117CF3 /* Config.xcconfig */,
 				85FA24D12BB78B8200D79DFA /* hackprinceton */,
 				85FA24D02BB78B8200D79DFA /* Products */,
