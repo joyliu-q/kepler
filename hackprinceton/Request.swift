@@ -38,7 +38,7 @@ import Foundation
             let title = commitResponse.commit.title
             let description = commitResponse.commit.description
             let date = commitResponse.commit.author.date
-            let avatar_url = commitResponse.author.avatar_url
+            let avatar_url = commitResponse.author?.avatar_url
             result[sha] = Commit(sha: sha, parent: parents, author: author, avatar_url: avatar_url, title: title, description: description, date: date)
         }
         
@@ -102,7 +102,7 @@ struct CommitResponse: Decodable {
     let sha: String
     let commit: CommitDetail
     let parents: [Parent]
-    let author: AuthorDeets
+    let author: AuthorDeets?
 }
 
 struct CommitDetail: Decodable {
