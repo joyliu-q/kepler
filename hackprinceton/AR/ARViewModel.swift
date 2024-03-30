@@ -24,6 +24,8 @@ func createEdgeEntity(color: UIColor) -> Entity {
     var arView: ARView?
     var session: ARSession?
     
+    var activeSha: Sha?
+    
     @available(visionOS, unavailable) func attach(to arView: ARView) {
         self.arView = arView
         session = arView.session
@@ -50,7 +52,8 @@ func createEdgeEntity(color: UIColor) -> Entity {
         var brightness: CGFloat = 0
         color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
         
-        let brighterColor = UIColor(hue: hue, saturation: saturation, brightness: min(1, brightness + 0.2), alpha: 1)
+        let brighterColor = UIColor(hue: hue, saturation:  isActive ? 15: 0 + saturation, brightness: isActive ? 5: 0 + min(1, brightness + 0.2), alpha: 1)
+        
         
         material.baseColor = .init(tint: brighterColor)
         material.emissiveColor = .init(color: color)
@@ -78,7 +81,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
         for node in nodes {
             guard let commit = repo.commits[node.sha] else { continue }
             
-            let commitEntity = createCommitEntity(for: commit, color: node.color, isActive: false)
+            let commitEntity = createCommitEntity(for: commit, color: node.color, isActive: activeSha == node.sha)
             commitEntity.position = SIMD3(x: Float(node.x) * xSpacing, y: y, z: -Float(node.z) * zSpacing)
             timelineRoot.addChild(commitEntity)
             

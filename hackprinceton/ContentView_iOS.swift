@@ -40,6 +40,7 @@ struct ContentView_iOS : View {
                               type: "mp3", numLoops: 1)
                 }
                 commit = selectedCommit
+                arViewModel.activeSha = commit?.sha
             } else {
                 commit = nil
             }
