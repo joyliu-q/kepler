@@ -19,13 +19,12 @@ func createEdgeEntity(color: UIColor) -> Entity {
 @Observable @MainActor class ARViewModel: NSObject {
     let rootEntity = Entity()
     var loadedEntity: Entity?
+    var selectedCommit: Commit?
     
     #if os(iOS)
     var arView: ARView?
     var session: ARSession?
-    
-    var activeSha: Sha?
-    
+        
     @available(visionOS, unavailable) func attach(to arView: ARView) {
         self.arView = arView
         session = arView.session
@@ -82,7 +81,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
         for node in nodes {
             guard let commit = repo.commits[node.sha] else { continue }
             
-            let commitEntity = createCommitEntity(for: commit, color: node.color, isActive: activeSha == node.sha)
+            let commitEntity = createCommitEntity(for: commit, color: node.color, isActive: selectedCommit?.sha == node.sha)
             commitEntity.position = SIMD3(x: Float(node.x) * xSpacing, y: y, z: -Float(node.z) * zSpacing)
             timelineRoot.addChild(commitEntity)
             

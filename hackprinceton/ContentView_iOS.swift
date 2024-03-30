@@ -11,7 +11,6 @@ import RealityKit
 #if os(iOS)
 @MainActor struct ContentView_iOS : View {
     @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/joyliu-q/hackprinceton")!
-    @State var commit: Commit? = nil
     @State var arViewModel = ARViewModel()
     @State var feedbackGenerator = UISelectionFeedbackGenerator()
     
@@ -35,21 +34,16 @@ import RealityKit
         .environment(arViewModel)
         .onTapGesture { event in
             if let selectedCommit = arViewModel.lookupCommit(at: event) {
-                if selectedCommit == commit {
-                    playSound(sound: "whoosh",
-                              type: "mp3", numLoops: 1)
-                }
-                commit = selectedCommit
-                arViewModel.activeSha = commit?.sha
+                arViewModel.selectedCommit = selectedCommit
             } else {
-                commit = nil
+                arViewModel.selectedCommit = nil
             }
         }
         .gesture(pinchGesture)
         .ignoresSafeArea()
-        .sheet(item: $commit) { commit in
+        .sheet(item: $arViewModel.selectedCommit) { commit in
             CommitDetailView(commit: commit, githubAPI: githubAPI)
-            .presentationDetents([.fraction(0.4), .large])
+            .presentationDetents([.fraction(0.3), .large])
                 .presentationDragIndicator(.visible)
                 .presentationBackgroundInteraction(.enabled)
                 .presentationBackground(.regularMaterial)
@@ -61,9 +55,11 @@ import RealityKit
                 logger.error("Failed to populate repo! \(error)")
             }
         }
-        .onChange(of: commit) {
-            if commit != nil {
+        .onChange(of: arViewModel.selectedCommit) {
+            if arViewModel.selectedCommit != nil {
                 feedbackGenerator.selectionChanged()
+                playSound(sound: "whoosh",
+                          type: "mp3", numLoops: 1)
             }
         }
     }

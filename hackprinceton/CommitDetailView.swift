@@ -28,7 +28,7 @@ struct CommitDetailView: View {
     
     var body: some View {
         
-        VStack(alignment: .trailing) {
+        VStack {
             
             Text(dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
             
@@ -61,14 +61,10 @@ struct CommitDetailView: View {
                 }).tabViewStyle(.page)
                 
             }
-            .background(.black.opacity(0.2))
-            .clipShape(.rect(cornerRadius: 16))
-            .overlay {
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(.black)
-            }
             
         }
+        .padding(.horizontal)
+        .padding(.top, 16)
     }
 }
 
@@ -79,7 +75,7 @@ struct CommitMetadataView: View {
     
     var body: some View {
         
-            HStack {
+        HStack(alignment: .top) {
                 Group {
                     if let avatarURL = commit.avatar_url {
                         AsyncImage(url: URL(string: avatarURL)) {
@@ -90,7 +86,6 @@ struct CommitMetadataView: View {
                             case .success(let image):
                                 image.resizable()
                                      .aspectRatio(contentMode: .fill)
-                                     .frame(maxWidth: 96, maxHeight: 96)
                                      .clipShape(Circle())
                             case .failure:
                                 Image(systemName: "photo")
@@ -105,17 +100,18 @@ struct CommitMetadataView: View {
                             
                     } else {
                         Circle().fill(.white)
-                            .frame(width: 64, height: 64)
                     }
                 }
+                .frame(width: 64, height: 64)
                 
                 
                 VStack(alignment: .leading, spacing: 16) {
                     
                     VStack(alignment: .leading) {
                         Text(commit.title)
-                            .font(.largeTitle)
+                            .font(.title)
                             .fontWeight(.bold)
+                            .lineLimit(3)
                         
                         
                         HStack() {
@@ -128,7 +124,7 @@ struct CommitMetadataView: View {
                                 Image(systemName: "arrow.triangle.branch")
                                     .font(.system(size: 20, weight: .light))
                                 
-                                Text(commit.sha)
+                                Text(commit.sha.prefix(6))
                             }
                             
                         }.monospaced().font(.subheadline)
@@ -141,7 +137,6 @@ struct CommitMetadataView: View {
                     
                 }
             }
-            .padding()
         
 
         
