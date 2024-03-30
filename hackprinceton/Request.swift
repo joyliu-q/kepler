@@ -70,9 +70,26 @@ import Foundation
     }
 
     // Function to fetch a commit for a particular SHA
-    func fetchCommit(for sha: String) async throws -> CommitResponse? {
+    func fetchCommit(for sha: Sha) async throws -> CommitResponse? {
         let urlString = "\(repository.url)/commits/\(sha)"
         return try await performRequest(urlString: urlString)
+    }
+    
+    func getDiff(sha: Sha) async throws -> String? {
+        let urlString = "\(repository.url)/commits/\(sha)"
+            
+        guard let url = URL(string: urlString) else {
+            throw NetworkError.invalidURL
+        }
+        
+        var request = URLRequest(url: url)
+        request.addValue("application/vnd.github.diff", forHTTPHeaderField: "Accept")
+        let (data, response) = try await URLSession.shared.data(for: request)
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.noData
+        }
+        return String(data: data, encoding: .utf8)
     }
 
     // General purpose request function
