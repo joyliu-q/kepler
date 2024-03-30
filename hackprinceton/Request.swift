@@ -8,7 +8,7 @@
 import Foundation
 
 // Using class here because when one GitHub repo changes, all changes
-class GitHubAPI {
+@Observable class GitHubAPI {
     let baseURL = "https://api.github.com/repos/"
     let repositoryURL: String
     var repository: Repository

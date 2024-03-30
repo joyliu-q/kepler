@@ -20,6 +20,10 @@ class CommitGraphNode {
     }
 }
 
+extension CommitGraphNode: Identifiable {
+    var id: Sha { sha }
+}
+
 func computeGraph(from repo: Repository) -> [CommitGraphNode] {
     var numEdges = repo.commits.mapValues { _ in 0 }
     for commit in repo.commits.values {

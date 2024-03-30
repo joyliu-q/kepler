@@ -40,7 +40,7 @@ struct Branch: Hashable {
     var head: Sha
 }
 
-struct Repository {
+struct Repository: Equatable {
     var url: String
     var branches: [Branch]
     var commits: Dictionary<Sha, Commit>
