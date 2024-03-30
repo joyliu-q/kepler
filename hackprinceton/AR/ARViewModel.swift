@@ -12,15 +12,32 @@ import RealityKit
 let commitSphere = MeshResource.generateSphere(radius: 0.01)
 let commitCollision = CollisionComponent(shapes: [.generateSphere(radius: 0.01)])
 
-func createCommitEntity(for commit: Commit, color: UIColor) -> Entity {
-    let entity = ModelEntity(mesh: commitSphere, materials: [SimpleMaterial(color: color, roughness: 0.5, isMetallic: true)])
-    entity.components.set(commitCollision)
-    entity.components.set(CommitComponent(commit: commit))
-    return entity
+
+func createCommitEntity(for commit: Commit, color: CommitColor, isActive: Bool = false) -> Entity {
+    let entityName: String = isActive ? color.getActive() : color.getInactive() // Simplify selection logic for example
+            
+        do {
+            // Try to load the named entity from the specified bundle
+            let scene = try Entity.load(named: "Scene", in: .main)
+            let entity = scene.findEntity(named:entityName)!
+
+            // Optionally customize the entity further if needed
+            // Remember to set your CommitComponent to keep commit data associated
+            entity.components.set(commitCollision)
+            entity.components.set(CommitComponent(commit: commit))
+            return entity
+        } catch {
+            // Handle loading error (e.g., entity not found)
+            fatalError("Error loading entity named \(entityName): \(error)")
+        }
+//    let entity = ModelEntity(mesh: commitSphere, materials: [SimpleMaterial(color: color, roughness: 0.5, isMetallic: true)])
+//    entity.components.set(commitCollision)
+//    entity.components.set(CommitComponent(commit: commit))
+//    return entity
 }
 
-func createCommitEntity(for commit: Commit) -> Entity {
-    return createCommitEntity(for: commit, color: .systemRed)
+func createCommitEntity(for commit: Commit, color: CommitColor) -> Entity {
+    return createCommitEntity(for: commit, color: color, isActive: false)
 }
 
 let edgeBoxSize: Float = 0.002
@@ -40,13 +57,13 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
     for node in nodes {
         guard let commit = repo.commits[node.sha] else { continue }
         
-        let commitEntity = createCommitEntity(for: commit, color: node.color)
+        let commitEntity = createCommitEntity(for: commit, color: node.color, isActive: false) // not sure if right
         commitEntity.position = SIMD3(x: Float(node.x) * xSpacing, y: y, z: -Float(node.z) * zSpacing)
         timelineRoot.addChild(commitEntity)
         
         for parent in node.parents {
             let newColor = if (node.parents.first?.color == node.color) {
-                node.color
+                node.color.getUIColor()
             } else {
                 UIColor.white
             }
