@@ -19,14 +19,46 @@ func createCommitEntity(for commit: Commit) -> Entity {
     return entity
 }
 
+let edgeBoxSize: Float = 0.002
+let edgeBox = MeshResource.generateBox(size: edgeBoxSize)
+let edgeMaterial = SimpleMaterial(color: .systemBlue, roughness: 1.0, isMetallic: true)
+
+func createEdgeEntity() -> Entity {
+    return ModelEntity(mesh: edgeBox, materials: [edgeMaterial])
+}
+
 func placeCommits(from repo: Repository, in timelineRoot: Entity) {
+    let xSpacing: Float = 0.03
+    let y: Float = 0.015
+    let zSpacing: Float = 0.03
+    
     let nodes = computeGraph(from: repo)
+    
     for node in nodes {
         guard let commit = repo.commits[node.sha] else { continue }
         
         let commitEntity = createCommitEntity(for: commit)
-        commitEntity.position = SIMD3(x: Float(node.x) * 0.03, y: 0.015, z: Float(node.z) * 0.03)
+        commitEntity.position = SIMD3(x: Float(node.x) * xSpacing, y: y, z: -Float(node.z) * zSpacing)
         timelineRoot.addChild(commitEntity)
+        
+        for parent in node.parents {
+            let edgeEntity = createEdgeEntity()
+            edgeEntity.position = SIMD3(
+                x: (Float(node.x) + Float(parent.x)) / 2 * xSpacing,
+                y: y,
+                z: -(Float(node.z) + Float(parent.z)) / 2 * zSpacing
+            )
+            
+            let xDiff = Float(node.x - parent.x) * xSpacing
+            let zDiff = Float(parent.z - node.z) * zSpacing
+            let length = sqrt(xDiff * xDiff + zDiff * zDiff)
+            
+            edgeEntity.scale = SIMD3(x: 1, y: 1, z: length / edgeBoxSize)
+            
+            let angle = atan(xDiff / zDiff)
+            edgeEntity.orientation *= simd_quatf(angle: angle, axis: SIMD3(x: 0, y: 1, z: 0))
+            timelineRoot.addChild(edgeEntity)
+        }
     }
 }
 

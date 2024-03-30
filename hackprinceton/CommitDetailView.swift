@@ -70,12 +70,17 @@ struct CommitMetadataView: View {
     var body: some View {
         
             HStack {
-                AsyncImage(url: URL(string: commit.avatar_url))
-                    .frame(width: 64, height: 64)
-                    .foregroundColor(.white)
-                    .padding(20)
-                    .background(Color.green)
-                    .clipShape(Circle())
+                Group {
+                    if let avatarURL = commit.avatar_url {
+                        AsyncImage(url: URL(string: avatarURL))
+                    } else {
+                        Rectangle().fill(.green)
+                    }
+                }
+                .frame(width: 64, height: 64)
+                .padding(20)
+                .background(Color.green)
+                .clipShape(Circle())
                 
                 
                 VStack(alignment: .leading, spacing: 16) {
