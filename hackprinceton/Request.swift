@@ -7,13 +7,16 @@
 
 import Foundation
 
-struct GitHubAPI {
+// Using class here because when one GitHub repo changes, all changes
+class GitHubAPI {
     let baseURL = "https://api.github.com/repos/"
     let repositoryURL: String
-    let repository: Repository?
+    let repository: Repository
 
     init?(repositoryURL: String) {
         self.repositoryURL = repositoryURL
+        
+        // TODO: auth
 
         // Extract the repository path from the URL
         if let repoPath = GitHubAPI.extractRepoPath(from: repositoryURL) {
@@ -25,6 +28,17 @@ struct GitHubAPI {
         }
     }
     
+    func populate() async throws {
+        let commits = try await fetchAllCommits()
+        let branches = try await fetchAllBranches()
+//        self.repository.commits = commits.map({commit in
+//            // TODO:
+//        })
+//        self.repository.branches = branches.map({branchResponse in
+//            // TODO
+//        })
+    }
+        
     private static func extractRepoPath(from url: String) -> String? {
         // Assuming URL format is 'https://github.com/[username]/[repository]'
         let components = url.split(separator: "/")
@@ -36,49 +50,32 @@ struct GitHubAPI {
     }
 
     // Function to fetch all commits
-    func fetchAllCommits(completion: @escaping (Result<[CommitResponse], Error>) -> Void) {
+    func fetchAllCommits() async throws -> [CommitResponse] {
         let urlString = "\(baseURL)\(repository)/commits"
-        performRequest(urlString: urlString, completion: completion)
+        return try await performRequest(urlString: urlString)
     }
 
     // Function to fetch all branches
-    func fetchAllBranches(completion: @escaping (Result<[BranchResponse], Error>) -> Void) {
+    func fetchAllBranches() async throws -> [BranchResponse] {
         let urlString = "\(baseURL)\(repository)/branches"
-        performRequest(urlString: urlString, completion: completion)
+        return try await  performRequest(urlString: urlString)
     }
 
     // Function to fetch a commit for a particular SHA
-    func fetchCommit(for sha: String, completion: @escaping (Result<CommitResponse, Error>) -> Void) {
+    func fetchCommit(for sha: String) async throws -> CommitResponse? {
         let urlString = "\(baseURL)\(repository)/commits/\(sha)"
-        performRequest(urlString: urlString, completion: completion)
+        return try await performRequest(urlString: urlString)
     }
 
     // General purpose request function
-    private func performRequest<T: Decodable>(urlString: String, completion: @escaping (Result<T, Error>) -> Void) {
+    private func performRequest<T: Decodable>(urlString: String) async throws -> T {
         guard let url = URL(string: urlString) else {
-            completion(.failure(NetworkError.invalidURL))
-            return
+            throw NetworkError.invalidURL
         }
 
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(NetworkError.noData))
-                return
-            }
-
-            do {
-                let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(decodedResponse))
-            } catch {
-                completion(.failure(error))
-            }
-        }
-        task.resume()
+        let (data, _) = try await URLSession.shared.data(from: url)
+        
+        return try JSONDecoder().decode(T.self, from: data)
     }
 }
 
