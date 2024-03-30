@@ -10,7 +10,7 @@ import CodeViewer
 
 struct CommitDetailView: View {
     var commit: Commit
-    @State var diff: String?
+    @State var diff: [String]?
 
     
     var body: some View {
@@ -26,15 +26,16 @@ struct CommitDetailView: View {
                     }
                 }
             }.onAppear(perform: {
-                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = """
+                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = ["""
                 {
                 "hello": "world"
                 }
-                """
+                """]
             }).tabViewStyle(.page)
     }
 }
 
+/// View for seeing all Commit Metadata
 struct CommitMetadataView: View {
 //    @State var thing = false
     var commit: Commit
@@ -90,26 +91,36 @@ struct CommitMetadataView: View {
     }
 }
 
+// TODO: this is very bad code
+extension String: Identifiable {
+    public var id: String {
+        self
+    }
+}
+
+/// View for a Diff commits are associated with
 struct CommitDiffView: View {
-    var diff: String
+    var diff: [String]
     
     var body: some View {
-        
-        CodeViewer(
-            content: .constant(diff),
-            mode: .json,
-            darkTheme: .solarized_dark,
-            lightTheme: .solarized_light,
-            isReadOnly: true,
-            fontSize: 54
-        )
-        .padding(24)
-        .background(.black.opacity(0.2))
-        .clipShape(.rect(cornerRadius: 16))
-        .overlay {
-            RoundedRectangle(cornerRadius: 16)
-                .stroke(.black)
+        ForEach(diff) { d in
+            CodeViewer(
+                content: .constant(d),
+                mode: .json,
+                darkTheme: .solarized_dark,
+                lightTheme: .solarized_light,
+                isReadOnly: true,
+                fontSize: 54
+            )
+            .padding(24)
+            .background(.black.opacity(0.2))
+            .clipShape(.rect(cornerRadius: 16))
+            .overlay {
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(.black)
+            }
         }
+        
     }
     
 }
