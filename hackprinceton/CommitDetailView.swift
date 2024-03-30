@@ -13,21 +13,20 @@ struct CommitDetailView: View {
 
     
     var body: some View {
-        TabView {
-            CommitMetadataView(commit: commit)
-                .tabItem {
-                    Text("Metadata")
-                }
-            
-            if diff != nil {
+            TabView {
+                CommitMetadataView(commit: commit)
+                    .tabItem {
+                        Text("Metadata")
+                    }
+                
+                if diff != nil {
                     CommitDiffView(diff: diff!).tabItem {
                         Text("View Diff")
                     }
-            }
-        }.onAppear(perform: {
-            /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = "TODO: do work here"
-        })
-        
+                }
+            }.onAppear(perform: {
+                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = "TODO: do work here"
+            }).tabViewStyle(.page)
     }
 }
 
@@ -39,20 +38,38 @@ struct CommitMetadataView: View {
         HStack {
             Circle()
                 .fill(.background)
-                .frame(width: 96, height: 96)
+                .frame(width: 64, height: 64)
             
-            VStack(alignment: .leading) {
-                Text(commit.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
+            VStack(alignment: .leading, spacing: 16) {
                 
-                
-                Text(commit.sha).monospaced().font(.subheadline)
-                
+                VStack() {
+                    Text(commit.title)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                    
+                    
+                    HStack() {
+                        
+                        Text(commit.author)
+                        
+                        Spacer()
+                        
+                        HStack() {
+                            Image(systemName: "arrow.triangle.branch")
+                                .font(.system(size: 20, weight: .light))
+                            
+                            Text(commit.sha)
+                        }
+                        
+                    }.monospaced().font(.subheadline)
+                }
                 
                 if commit.description != nil {
-                    Text(commit.description!)
+
+                    Text(commit.description!).lineLimit(3)
                 }
+                
+
                
             }
         }
