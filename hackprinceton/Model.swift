@@ -9,7 +9,7 @@ import Foundation
 
 typealias Sha = String
 
-struct Commit: Equatable, Hashable, Identifiable {
+struct Commit: Equatable, Hashable, Identifiable, Codable {
     var sha: Sha
     var parent: [Sha]
     
@@ -100,4 +100,8 @@ struct Repository: Equatable {
         }
 }
 
-
+struct GitRepositoryAnalysis: Codable {
+    var arcs: [String]
+    var keyContributors: [String: [String]]
+    var overallPatterns: [String]
+}
