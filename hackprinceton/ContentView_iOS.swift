@@ -8,8 +8,8 @@
 import SwiftUI
 import RealityKit
 
-
-struct ContentView : View {
+#if os(iOS)
+struct ContentView_iOS : View {
     @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/joyliu-q/hackprinceton")!
     @State var commit: Commit? = nil
     @State var arViewModel = ARViewModel()
@@ -62,7 +62,8 @@ struct ARViewContainer: UIViewRepresentable {
         let anchor = AnchorEntity(.plane(.horizontal, classification: .any, minimumBounds: SIMD2<Float>(0.2, 0.2)))
 
         // Set up the scene
-        arViewModel.setup(repository: repository, arView: arView)
+        arViewModel.setup(repository: repository)
+        arViewModel.attach(to: arView)
         anchor.children.append(arViewModel.rootEntity)
         
         // Add the horizontal plane anchor to the scene
@@ -78,5 +79,6 @@ struct ARViewContainer: UIViewRepresentable {
 }
 
 #Preview {
-    ContentView()
+    ContentView_iOS()
 }
+#endif

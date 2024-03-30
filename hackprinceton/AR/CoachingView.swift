@@ -8,6 +8,7 @@
 import SwiftUI
 import ARKit
 
+#if os(iOS)
 struct CoachingView: UIViewRepresentable {
     @Environment(ARViewModel.self) var arViewModel
     
@@ -22,3 +23,4 @@ struct CoachingView: UIViewRepresentable {
         uiView.session = arViewModel.session
     }
 }
+#endif

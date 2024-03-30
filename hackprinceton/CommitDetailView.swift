@@ -6,7 +6,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
 import CodeViewer
+#endif
 
 struct CommitDetailView: View {
     var commit: Commit
@@ -38,11 +40,13 @@ struct CommitDetailView: View {
                             Text("Metadata")
                         }
                     
+                    #if os(iOS)
                     if diff != nil {
                         CommitDiffView(diff: diff!).tabItem {
                             Text("View Diff")
                         }
                     }
+                    #endif
                 }.task({
                     do {
                         if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
@@ -152,6 +156,7 @@ extension String: Identifiable {
     }
 }
 
+#if os(iOS)
 /// View for a Diff commits are associated with
 struct CommitDiffView: View {
     var diff: [String]
@@ -174,6 +179,7 @@ struct CommitDiffView: View {
     }
     
 }
+#endif
 
 
 #Preview {
