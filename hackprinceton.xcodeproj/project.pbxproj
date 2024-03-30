@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8522F6A72BB79871000EC4AC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A62BB79871000EC4AC /* Model.swift */; };
 		85FA24D32BB78B8200D79DFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D22BB78B8200D79DFA /* AppDelegate.swift */; };
 		85FA24D52BB78B8200D79DFA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView.swift */; };
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8522F6A62BB79871000EC4AC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		85FA24CF2BB78B8200D79DFA /* hackprinceton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackprinceton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85FA24D22BB78B8200D79DFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85FA24D42BB78B8200D79DFA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				89F987732BB799B300117CF3 /* CommitDetailView.swift */,
 				85FA24D62BB78B8500D79DFA /* Assets.xcassets */,
 				85FA24D82BB78B8500D79DFA /* Preview Content */,
+				8522F6A62BB79871000EC4AC /* Model.swift */,
 			);
 			path = hackprinceton;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
+				8522F6A72BB79871000EC4AC /* Model.swift in Sources */,
 				85FA24D52BB78B8200D79DFA /* ContentView.swift in Sources */,
 				85FA24D32BB78B8200D79DFA /* AppDelegate.swift in Sources */,
 			);
@@ -290,6 +294,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -321,6 +326,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
