@@ -25,7 +25,7 @@ struct ContentView : View {
             }
             .ignoresSafeArea()
             .sheet(item: $commit) { commit in
-                CommitDetailView(commit: commit)
+                CommitDetailView(commit: commit, githubAPI: githubAPI)
                 .presentationDetents([.fraction(0.4), .large])
                     .presentationDragIndicator(.visible)
                     .presentationBackgroundInteraction(.enabled)

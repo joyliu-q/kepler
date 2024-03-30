@@ -10,6 +10,7 @@ import CodeViewer
 
 struct CommitDetailView: View {
     var commit: Commit
+    @State var githubAPI: GitHubAPI
     
     @State var diff: [String]?
 
@@ -42,12 +43,17 @@ struct CommitDetailView: View {
                             Text("View Diff")
                         }
                     }
-                }.onAppear(perform: {
-                    /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = ["""
-                {
-                "hello": "world"
-                }
-                """]
+                }.task({
+                    do {
+                        if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
+                            diff = [diffStr]
+                        }
+                        
+                    } catch {
+                        logger.error("Failed to populate repo! \(error)")
+                    }
+                    
+                   
                 }).tabViewStyle(.page)
                 
             }
@@ -72,15 +78,32 @@ struct CommitMetadataView: View {
             HStack {
                 Group {
                     if let avatarURL = commit.avatar_url {
-                        AsyncImage(url: URL(string: avatarURL))
+                        AsyncImage(url: URL(string: avatarURL)) {
+                            phase in
+                            switch phase {
+                            case .empty:
+                                ProgressView()
+                            case .success(let image):
+                                image.resizable()
+                                     .aspectRatio(contentMode: .fill)
+                                     .frame(maxWidth: 96, maxHeight: 96)
+                                     .clipShape(Circle())
+                            case .failure:
+                                Image(systemName: "photo")
+                            @unknown default:
+                                // Since the AsyncImagePhase enum isn't frozen,
+                                // we need to add this currently unused fallback
+                                // to handle any new cases that might be added
+                                // in the future:
+                                EmptyView()
+                            }
+                        }
+                            
                     } else {
-                        Rectangle().fill(.green)
+                        Circle().fill(.white)
+                            .frame(width: 64, height: 64)
                     }
                 }
-                .frame(width: 64, height: 64)
-                .padding(20)
-                .background(Color.green)
-                .clipShape(Circle())
                 
                 
                 VStack(alignment: .leading, spacing: 16) {
@@ -143,7 +166,7 @@ struct CommitDiffView: View {
                         darkTheme: .solarized_dark,
                         lightTheme: .solarized_light,
                         isReadOnly: true,
-                        fontSize: 54
+                        fontSize: 24
                     )
                 }
             }.padding(24)
@@ -154,5 +177,5 @@ struct CommitDiffView: View {
 
 
 #Preview {
-    CommitDetailView(commit: .dummy)
+    CommitDetailView(commit: .dummy, githubAPI: GitHubAPI(repositoryURL: "https://github.com/joyliu-q/hackprinceton")!)
 }

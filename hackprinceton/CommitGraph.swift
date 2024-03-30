@@ -6,18 +6,35 @@
 //
 
 import Foundation
+import UIKit
+
+let VALID_COLORS: [UIColor] = [
+    .systemPink,
+    .systemBlue,
+    .systemPurple,
+    .systemMint,
+    .systemTeal,
+    .systemCyan
+]
 
 class CommitGraphNode {
     let sha: Sha
     let x: Int
     let z: Int
+    let color: UIColor
     var parents = [CommitGraphNode]()
     
-    init(sha: Sha, x: Int, z: Int) {
+    init(sha: Sha, x: Int, z: Int, color: UIColor) {
         self.sha = sha
         self.x = x
         self.z = z
+        self.color = color
     }
+    
+//    convenience init(sha: Sha, x: Int, z: Int) {
+//        self.init(sha: sha, x: x, z: z, color: VALID_COLORS[0])
+//    }
+    
 }
 
 extension CommitGraphNode: Identifiable {
@@ -63,6 +80,18 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
     var xValues = [Sha: Int]()
     var nextX = 0 // TODO: Make this less dumb
     
+    var nodeColors = [Sha: UIColor]()
+    for commit in sorted.reversed() {
+        let parents = commit.parent.filter({c in
+            repo.commits.keys.contains(c)
+        })
+        if parents.count > 1 || parents.count == 0 {
+            nodeColors[commit.sha] = VALID_COLORS.randomElement()!
+        } else {
+            nodeColors[commit.sha] = nodeColors[parents.first!]!
+        }
+    }
+    
     for (i, commit) in sorted.enumerated() {
         let x: Int
         if let assignedX = xValues[commit.sha] {
@@ -74,7 +103,7 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
             xValues[commit.sha] = x
         }
         
-        let node = CommitGraphNode(sha: commit.sha, x: x, z: i)
+        let node = CommitGraphNode(sha: commit.sha, x: x, z: i, color: nodeColors[commit.sha]!)
         result.append(node)
         nodes[commit.sha] = node
         

@@ -10,21 +10,23 @@ import RealityKit
 
 let commitSphere = MeshResource.generateSphere(radius: 0.01)
 let commitCollision = CollisionComponent(shapes: [.generateSphere(radius: 0.01)])
-let commitMaterial = SimpleMaterial(color: .systemBlue, roughness: 0.5, isMetallic: true)
 
-func createCommitEntity(for commit: Commit) -> Entity {
-    let entity = ModelEntity(mesh: commitSphere, materials: [commitMaterial])
+func createCommitEntity(for commit: Commit, color: UIColor) -> Entity {
+    let entity = ModelEntity(mesh: commitSphere, materials: [SimpleMaterial(color: color, roughness: 0.5, isMetallic: true)])
     entity.components.set(commitCollision)
     entity.components.set(CommitComponent(commit: commit))
     return entity
 }
 
+func createCommitEntity(for commit: Commit) -> Entity {
+    return createCommitEntity(for: commit, color: .systemRed)
+}
+
 let edgeBoxSize: Float = 0.002
 let edgeBox = MeshResource.generateBox(size: edgeBoxSize)
-let edgeMaterial = SimpleMaterial(color: .systemBlue, roughness: 1.0, isMetallic: true)
 
-func createEdgeEntity() -> Entity {
-    return ModelEntity(mesh: edgeBox, materials: [edgeMaterial])
+func createEdgeEntity(color: UIColor) -> Entity {
+    return ModelEntity(mesh: edgeBox, materials: [SimpleMaterial(color: color, roughness: 1.0, isMetallic: true)])
 }
 
 func placeCommits(from repo: Repository, in timelineRoot: Entity) {
@@ -37,12 +39,17 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
     for node in nodes {
         guard let commit = repo.commits[node.sha] else { continue }
         
-        let commitEntity = createCommitEntity(for: commit)
+        let commitEntity = createCommitEntity(for: commit, color: node.color)
         commitEntity.position = SIMD3(x: Float(node.x) * xSpacing, y: y, z: -Float(node.z) * zSpacing)
         timelineRoot.addChild(commitEntity)
         
         for parent in node.parents {
-            let edgeEntity = createEdgeEntity()
+            let newColor = if (node.parents.first?.color == node.color) {
+                node.color
+            } else {
+                UIColor.white
+            }
+            let edgeEntity = createEdgeEntity(color: newColor)
             edgeEntity.position = SIMD3(
                 x: (Float(node.x) + Float(parent.x)) / 2 * xSpacing,
                 y: y,
