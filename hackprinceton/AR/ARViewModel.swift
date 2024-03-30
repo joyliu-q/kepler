@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ARKit
 import RealityKit
 
 let commitSphere = MeshResource.generateSphere(radius: 0.01)
@@ -69,9 +70,10 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
     }
 }
 
-@Observable class ARViewModel {
+@Observable class ARViewModel: NSObject {
     let rootEntity = Entity()
     var arView: ARView?
+    var session: ARSession?
     
     func setup(repository: Repository, arView: ARView) {
         let timelineRoot = Entity()
@@ -82,6 +84,7 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
         rootEntity.addChild(timelineRoot)
         
         self.arView = arView
+        session = arView.session
     }
     
     func update(repository: Repository) {

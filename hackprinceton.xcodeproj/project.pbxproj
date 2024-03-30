@@ -19,6 +19,7 @@
 		89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987762BB7B38600117CF3 /* CommitGraph.swift */; };
 		89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987792BB84EA500117CF3 /* CommitComponent.swift */; };
 		89F9877E2BB8574F00117CF3 /* ARViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F9877D2BB8574F00117CF3 /* ARViewModel.swift */; };
+		89F987812BB868FA00117CF3 /* CoachingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987802BB868FA00117CF3 /* CoachingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		89F987792BB84EA500117CF3 /* CommitComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitComponent.swift; sourceTree = "<group>"; };
 		89F9877D2BB8574F00117CF3 /* ARViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewModel.swift; sourceTree = "<group>"; };
 		89F9877F2BB863F100117CF3 /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
+		89F987802BB868FA00117CF3 /* CoachingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoachingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 			children = (
 				89F9877D2BB8574F00117CF3 /* ARViewModel.swift */,
 				89F987792BB84EA500117CF3 /* CommitComponent.swift */,
+				89F987802BB868FA00117CF3 /* CoachingView.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -186,6 +189,7 @@
 				8522F6A92BB7A607000EC4AC /* GitHubAPI.swift in Sources */,
 				89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */,
 				85FA24D52BB78B8200D79DFA /* ContentView.swift in Sources */,
+				89F987812BB868FA00117CF3 /* CoachingView.swift in Sources */,
 				85FA24D32BB78B8200D79DFA /* ProvisionallyNamedApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
