@@ -53,11 +53,11 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
         }
     }
     
-    var s = Set(repo.commits.values.filter { numEdges[$0.sha]! == 0 })
+    var s = repo.commits.values.filter { numEdges[$0.sha]! == 0 }
     var sorted = [Commit]()
     
     while !s.isEmpty {
-        let commit = s.removeFirst()
+        let commit = s.removeLast()
         sorted.append(commit)
 
         for parent in commit.parent {
@@ -65,7 +65,7 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
                 let newEdges = edges - 1
                 numEdges[parent] = newEdges
                 if newEdges == 0, let parentCommit = repo.commits[parent] {
-                    s.insert(parentCommit)
+                    s.append(parentCommit)
                 }
             }
         }
@@ -86,7 +86,9 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
             repo.commits.keys.contains(c)
         })
         if parents.count > 1 || parents.count == 0 {
-            nodeColors[commit.sha] = VALID_COLORS.randomElement()!
+            var hasher = Hasher()
+            hasher.combine(commit.sha)
+            nodeColors[commit.sha] = VALID_COLORS[(hasher.finalize() % VALID_COLORS.count + VALID_COLORS.count) % VALID_COLORS.count]
         } else {
             nodeColors[commit.sha] = nodeColors[parents.first!]!
         }

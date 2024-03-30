@@ -72,19 +72,24 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
 
 @Observable class ARViewModel: NSObject {
     let rootEntity = Entity()
+    
+    #if os(iOS)
     var arView: ARView?
     var session: ARSession?
     
-    func setup(repository: Repository, arView: ARView) {
+    @available(visionOS, unavailable) func attach(to arView: ARView) {
+        self.arView = arView
+        session = arView.session
+    }
+    #endif
+    
+    func setup(repository: Repository) {
         let timelineRoot = Entity()
         timelineRoot.name = "TimelineRoot"
         
         placeCommits(from: repository, in: timelineRoot)
         
         rootEntity.addChild(timelineRoot)
-        
-        self.arView = arView
-        session = arView.session
     }
     
     func update(repository: Repository) {
@@ -99,6 +104,7 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
         }
     }
     
+    #if os(iOS)
     func lookupCommit(at point: CGPoint) -> Commit? {
         guard let arView else { return nil }
         
@@ -109,4 +115,5 @@ func placeCommits(from repo: Repository, in timelineRoot: Entity) {
         
         return nil
     }
+    #endif
 }
