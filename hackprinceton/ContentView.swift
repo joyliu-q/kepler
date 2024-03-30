@@ -50,10 +50,14 @@ struct ContentView : View {
                 .presentationBackground(.regularMaterial)
         }
         .task {
-            try? await githubAPI.populate()
+            do {
+                try await githubAPI.populate()
+            } catch {
+                logger.error("Failed to populate repo! \(error)")
+            }
         }
-        .onChange(of: githubAPI.repository) { repo in
-            graphNodes = computeGraph(from: repo)
+        .onChange(of: githubAPI.repository) {
+            graphNodes = computeGraph(from: githubAPI.repository)
         }
     }
 }

@@ -14,7 +14,7 @@ struct Commit: Equatable, Hashable, Identifiable {
     var parent: [Sha]
     
     var author: String     // TODO: do not support co-authors right now, as well as different authors and committers
-    var avatar_url: String
+    var avatar_url: String?
     var title: String
     var description: String?
     
