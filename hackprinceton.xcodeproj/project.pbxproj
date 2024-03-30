@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8522F6A72BB79871000EC4AC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A62BB79871000EC4AC /* Model.swift */; };
 		8522F6A92BB7A607000EC4AC /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A82BB7A527000EC4AC /* Request.swift */; };
+		85E008082BB7D114006F499A /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 85E008072BB7D114006F499A /* CodeViewer */; };
 		85FA24D32BB78B8200D79DFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D22BB78B8200D79DFA /* AppDelegate.swift */; };
 		85FA24D52BB78B8200D79DFA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView.swift */; };
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85E008082BB7D114006F499A /* CodeViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +99,9 @@
 			dependencies = (
 			);
 			name = hackprinceton;
+			packageProductDependencies = (
+				85E008072BB7D114006F499A /* CodeViewer */,
+			);
 			productName = hackprinceton;
 			productReference = 85FA24CF2BB78B8200D79DFA /* hackprinceton.app */;
 			productType = "com.apple.product-type.application";
@@ -125,6 +130,9 @@
 				Base,
 			);
 			mainGroup = 85FA24C62BB78B8200D79DFA;
+			packageReferences = (
+				85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */,
+			);
 			productRefGroup = 85FA24D02BB78B8200D79DFA /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -370,6 +378,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dwarvesf/CodeViewer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85E008072BB7D114006F499A /* CodeViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */;
+			productName = CodeViewer;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 85FA24C72BB78B8200D79DFA /* Project object */;
 }

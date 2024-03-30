@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CodeViewer
 
 struct CommitDetailView: View {
     var commit: Commit
@@ -25,7 +26,11 @@ struct CommitDetailView: View {
                     }
                 }
             }.onAppear(perform: {
-                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = "TODO: do work here"
+                /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Code@*/ /*@END_MENU_TOKEN@*/diff = """
+                {
+                "hello": "world"
+                }
+                """
             }).tabViewStyle(.page)
     }
 }
@@ -89,8 +94,16 @@ struct CommitDiffView: View {
     var diff: String
     
     var body: some View {
-        Text(diff)
-        .padding()
+        
+        CodeViewer(
+            content: .constant(diff),
+            mode: .json,
+            darkTheme: .solarized_dark,
+            lightTheme: .solarized_light,
+            isReadOnly: true,
+            fontSize: 54
+        )
+        .padding(24)
         .background(.black.opacity(0.2))
         .clipShape(.rect(cornerRadius: 16))
         .overlay {
