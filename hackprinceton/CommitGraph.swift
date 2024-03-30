@@ -8,23 +8,68 @@
 import Foundation
 import UIKit
 
-let VALID_COLORS: [UIColor] = [
-    .systemPink,
-    .systemBlue,
-    .systemPurple,
-    .systemMint,
-    .systemTeal,
-    .systemCyan
-]
+//let VALID_COLORS: [UIColor] = [
+//    .systemPink,
+//    .systemBlue,
+//    .systemPurple,
+//    .systemMint,
+//    .systemTeal,
+//    .systemCyan
+//]
+
+enum CommitColor {
+//    case Pink
+//    case Blue
+    case Purple
+    
+//    let activeEntityNames = ["Blue_Active", "Pink_Active", "Purple_Active"]
+//    let inactiveEntityNames = ["Blue_Inactive", "Pink_Inactive", "Purple_Inactive"]
+    func getActive() -> String {
+        switch (self) {
+//            case .Pink:
+//                return "Pink_Active"
+//            case .Blue:
+//               return "Blue_Active"
+            case .Purple:
+                return "Purple_Active"
+        }
+    }
+    
+    func getInactive() -> String {
+        switch (self) {
+//            case .Pink:
+//                return "Pink_Inactive"
+//            case .Blue:
+//               return "Blue_Inactive"
+            case .Purple:
+                return "Purple_Inactive"
+        }
+    }
+    
+    // TODO: type conversion instead of func if swift allow
+    func getUIColor() -> UIColor {
+        switch (self) {
+//            case .Pink:
+//                return .systemPink
+//            case .Blue:
+//                return .systemBlue
+            case .Purple:
+                return .systemPurple
+        }
+    }
+}
+
+//let VALID_COLORS = [CommitColor.Pink, CommitColor.Blue, CommitColor.Purple]
+let VALID_COLORS = [CommitColor.Purple]
 
 class CommitGraphNode {
     let sha: Sha
     let x: Int
     let z: Int
-    let color: UIColor
+    let color: CommitColor
     var parents = [CommitGraphNode]()
     
-    init(sha: Sha, x: Int, z: Int, color: UIColor) {
+    init(sha: Sha, x: Int, z: Int, color: CommitColor) {
         self.sha = sha
         self.x = x
         self.z = z
@@ -53,11 +98,11 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
         }
     }
     
-    var s = Set(repo.commits.values.filter { numEdges[$0.sha]! == 0 })
+    var s = repo.commits.values.filter { numEdges[$0.sha]! == 0 }
     var sorted = [Commit]()
     
     while !s.isEmpty {
-        let commit = s.removeFirst()
+        let commit = s.removeLast()
         sorted.append(commit)
 
         for parent in commit.parent {
@@ -65,7 +110,7 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
                 let newEdges = edges - 1
                 numEdges[parent] = newEdges
                 if newEdges == 0, let parentCommit = repo.commits[parent] {
-                    s.insert(parentCommit)
+                    s.append(parentCommit)
                 }
             }
         }
@@ -80,13 +125,15 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
     var xValues = [Sha: Int]()
     var nextX = 0 // TODO: Make this less dumb
     
-    var nodeColors = [Sha: UIColor]()
+    var nodeColors = [Sha: CommitColor]()
     for commit in sorted.reversed() {
         let parents = commit.parent.filter({c in
             repo.commits.keys.contains(c)
         })
         if parents.count > 1 || parents.count == 0 {
-            nodeColors[commit.sha] = VALID_COLORS.randomElement()!
+            var hasher = Hasher()
+            hasher.combine(commit.sha)
+            nodeColors[commit.sha] = VALID_COLORS[(hasher.finalize() % VALID_COLORS.count + VALID_COLORS.count) % VALID_COLORS.count]
         } else {
             nodeColors[commit.sha] = nodeColors[parents.first!]!
         }

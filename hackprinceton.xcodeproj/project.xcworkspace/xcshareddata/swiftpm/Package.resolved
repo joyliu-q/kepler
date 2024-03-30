@@ -1,4 +1,5 @@
 {
+  "originHash" : "1a7b6848b99508f36d33803f3d81c192d2fb03680372575061fa821eca3fe513",
   "pins" : [
     {
       "identity" : "codeviewer",
@@ -10,5 +11,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
