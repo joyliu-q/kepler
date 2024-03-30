@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6CEDA60C2BB883A300CBF403 /* Scene.usda in Resources */ = {isa = PBXBuildFile; fileRef = 6CEDA60B2BB8839400CBF403 /* Scene.usda */; };
+		6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 6CEDA60E2BB8910300CBF403 /* OpenAI */; };
 		8522F6A72BB79871000EC4AC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A62BB79871000EC4AC /* Model.swift */; };
 		8522F6A92BB7A607000EC4AC /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */; };
 		85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */; };
@@ -19,6 +20,7 @@
 		85FA24D52BB78B8200D79DFA /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */; };
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };
 		85FA24DA2BB78B8500D79DFA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */; };
+		8919069E2BB8ACF400CAC0C6 /* BranchLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */; };
 		89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987732BB799B300117CF3 /* CommitDetailView.swift */; };
 		89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987762BB7B38600117CF3 /* CommitGraph.swift */; };
 		89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987792BB84EA500117CF3 /* CommitComponent.swift */; };
@@ -41,6 +43,7 @@
 		85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_iOS.swift; sourceTree = "<group>"; };
 		85FA24D62BB78B8500D79DFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchLabels.swift; sourceTree = "<group>"; };
 		89F987732BB799B300117CF3 /* CommitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailView.swift; sourceTree = "<group>"; };
 		89F987752BB79C1100117CF3 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		89F987762BB7B38600117CF3 /* CommitGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitGraph.swift; sourceTree = "<group>"; };
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */,
 				85E008082BB7D114006F499A /* CodeViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -126,6 +130,7 @@
 				89F9877D2BB8574F00117CF3 /* ARViewModel.swift */,
 				89F987792BB84EA500117CF3 /* CommitComponent.swift */,
 				89F987802BB868FA00117CF3 /* CoachingView.swift */,
+				8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -148,6 +153,7 @@
 			name = hackprinceton;
 			packageProductDependencies = (
 				85E008072BB7D114006F499A /* CodeViewer */,
+				6CEDA60E2BB8910300CBF403 /* OpenAI */,
 			);
 			productName = hackprinceton;
 			productReference = 85FA24CF2BB78B8200D79DFA /* hackprinceton.app */;
@@ -179,6 +185,7 @@
 			mainGroup = 85FA24C62BB78B8200D79DFA;
 			packageReferences = (
 				85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */,
+				6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 85FA24D02BB78B8200D79DFA /* Products */;
 			projectDirPath = "";
@@ -210,6 +217,7 @@
 			files = (
 				85845DE32BB898B100B71FF0 /* Verbwire.swift in Sources */,
 				89F9877E2BB8574F00117CF3 /* ARViewModel.swift in Sources */,
+				8919069E2BB8ACF400CAC0C6 /* BranchLabels.swift in Sources */,
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
 				85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */,
 				89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */,
@@ -444,6 +452,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.6;
+			};
+		};
 		85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/dwarvesf/CodeViewer";
@@ -455,6 +471,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6CEDA60E2BB8910300CBF403 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
+		};
 		85E008072BB7D114006F499A /* CodeViewer */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */;

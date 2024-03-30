@@ -4,6 +4,8 @@
 <dict>
 	<key>SECRET</key>
 	<string>$(VERBWIRE_API)</string>
+	<key>OPENAI_APIKEY</key>
+	<string>$(OPENAI_API)</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationPreferredDefaultSceneSessionRole</key>
