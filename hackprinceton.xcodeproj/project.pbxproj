@@ -17,6 +17,7 @@
 		89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987732BB799B300117CF3 /* CommitDetailView.swift */; };
 		89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987762BB7B38600117CF3 /* CommitGraph.swift */; };
 		89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987792BB84EA500117CF3 /* CommitComponent.swift */; };
+		89F9877C2BB851D000117CF3 /* GeneralARStuff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F9877B2BB851D000117CF3 /* GeneralARStuff.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		89F987752BB79C1100117CF3 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		89F987762BB7B38600117CF3 /* CommitGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitGraph.swift; sourceTree = "<group>"; };
 		89F987792BB84EA500117CF3 /* CommitComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitComponent.swift; sourceTree = "<group>"; };
+		89F9877B2BB851D000117CF3 /* GeneralARStuff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralARStuff.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 		89F987782BB84E9700117CF3 /* AR */ = {
 			isa = PBXGroup;
 			children = (
+				89F9877B2BB851D000117CF3 /* GeneralARStuff.swift */,
 				89F987792BB84EA500117CF3 /* CommitComponent.swift */,
 			);
 			path = AR;
@@ -170,6 +173,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				89F9877C2BB851D000117CF3 /* GeneralARStuff.swift in Sources */,
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
 				89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */,
 				8522F6A72BB79871000EC4AC /* Model.swift in Sources */,
