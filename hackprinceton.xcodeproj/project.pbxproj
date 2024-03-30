@@ -14,6 +14,7 @@
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };
 		85FA24DA2BB78B8500D79DFA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */; };
 		89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987732BB799B300117CF3 /* CommitDetailView.swift */; };
+		89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987762BB7B38600117CF3 /* CommitGraph.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		89F987732BB799B300117CF3 /* CommitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailView.swift; sourceTree = "<group>"; };
 		89F987752BB79C1100117CF3 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		89F987762BB7B38600117CF3 /* CommitGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitGraph.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				85FA24D62BB78B8500D79DFA /* Assets.xcassets */,
 				85FA24D82BB78B8500D79DFA /* Preview Content */,
 				8522F6A62BB79871000EC4AC /* Model.swift */,
+				89F987762BB7B38600117CF3 /* CommitGraph.swift */,
 			);
 			path = hackprinceton;
 			sourceTree = "<group>";
@@ -151,6 +154,7 @@
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
 				8522F6A72BB79871000EC4AC /* Model.swift in Sources */,
 				8522F6A92BB7A607000EC4AC /* Request.swift in Sources */,
+				89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */,
 				85FA24D52BB78B8200D79DFA /* ContentView.swift in Sources */,
 				85FA24D32BB78B8200D79DFA /* AppDelegate.swift in Sources */,
 			);

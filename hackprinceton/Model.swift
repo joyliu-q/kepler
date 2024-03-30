@@ -11,7 +11,7 @@ typealias Sha = String
 
 struct Commit: Equatable, Hashable {
     var sha: Sha
-    var parent: [Commit]
+    var parent: [Sha]
     
     var author: String     // TODO: do not support co-authors right now, as well as different authors and committers
     var title: String
