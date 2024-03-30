@@ -15,7 +15,7 @@ extension PresentationDetent {
 }
 
 struct CommitDetailView: View {
-    var commit: Commit
+    @State var commit: Commit
     @State var githubAPI: GitHubAPI
     
     @State var diff: [String]?
@@ -71,13 +71,18 @@ struct CommitDetailView: View {
                 }
         }
         .task({
-            do {
-                if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
-                    diff = [diffStr]
+            if commit.diff != nil {
+                diff = commit.diff
+            } else {
+                do {
+                    if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
+                        diff = [diffStr]
+                        commit.diff = diff
+                    }
+                    
+                } catch {
+                    logger.error("Failed to populate repo! \(error)")
                 }
-                
-            } catch {
-                logger.error("Failed to populate repo! \(error)")
             }
         })
         .padding(.horizontal)
@@ -90,7 +95,6 @@ struct CommitDetailView: View {
 
 /// View for seeing all Commit Metadata
 struct CommitMetadataView: View {
-//    @State var thing = false
     var commit: Commit
     var hideDescription = false
     

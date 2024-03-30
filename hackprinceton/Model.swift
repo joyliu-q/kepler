@@ -22,6 +22,7 @@ struct Commit: Equatable, Hashable, Identifiable, Codable {
     var id: Sha {
         sha
     }
+    var diff: [String]? // TODO: So sorry we need to change this to not a list at some point
     
     // Displays
     //    var diff: String? // For now, potentially not possible
