@@ -9,7 +9,7 @@ import Foundation
 
 typealias Sha = String
 
-struct Commit: Equatable, Hashable {
+struct Commit: Equatable, Hashable, Identifiable {
     var sha: Sha
     var parent: [Sha]
     
@@ -17,17 +17,25 @@ struct Commit: Equatable, Hashable {
     var title: String
     var description: String?
     
+    var id: Sha {
+        sha
+    }
+    
     // Displays
     //    var diff: String? // For now, potentially not possible
     
     // Optional metadata fields
     //    var verified: Bool
     
+    static let dummy = Commit(sha: "abcdjoy", parent: [], author: "joyliu-q", title: "Dummy Commit", description: "This is an example commit. Here I did nothing. Yay :D")
+    
 }
 
 struct Branch: Hashable {
-    var head: Sha
+    /// Name of branch
     var name: String
+    /// Head Commit Id
+    var head: Sha
 }
 
 struct Repository {
@@ -38,13 +46,17 @@ struct Repository {
     var main: String = "main"
     
     /// Get HEAD commit from the main branch
-    func getHeadCommit() -> Commit? {
+    func getHeadCommit(branchName: String) -> Commit? {
         for branch in self.branches {
-            if branch.name == self.main {
+            if branch.name == branchName {
                 return self.commits[branch.head]
             }
         }
         return nil
+    }
+    
+    func getHeadCommit() -> Commit? {
+        return getHeadCommit(branchName: self.main)
     }
     
     func topologicalSortCommits() -> [Commit]? {
@@ -55,7 +67,7 @@ struct Repository {
             // Invert the parent relationship to a child relationship
             for commit in self.commits.values {
                 for parent in commit.parent {
-                    childrenMap[parent.sha, default: []].append(commit)
+                    childrenMap[parent, default: []].append(commit)
                 }
             }
             

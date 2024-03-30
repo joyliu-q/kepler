@@ -8,13 +8,9 @@
 import SwiftUI
 import RealityKit
 
-// This is bad, delete this later
-extension String: Identifiable {
-    public var id: String { self }
-}
 
 struct ContentView : View {
-    @State var temp: String? = nil
+    @State var commit: Commit? = nil
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -22,17 +18,21 @@ struct ContentView : View {
                 .edgesIgnoringSafeArea(.all)
 
             Button("Show Sheet") {
-                temp = "todo"
+                commit = .dummy
             }
             .buttonStyle(BorderedProminentButtonStyle())
             .padding()
         }
-        .sheet(item: $temp) { _ in
-            CommitDetailView()
-                .presentationDetents([.fraction(0.4), .large])
+        .sheet(item: $commit) { commit in
+            CommitDetailView(commit: commit)
+            .presentationDetents([.fraction(0.4), .large])
                 .presentationDragIndicator(.visible)
                 .presentationBackgroundInteraction(.enabled)
                 .presentationBackground(.regularMaterial)
+        .task({
+            let repo = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile")
+            try! await repo?.populate()
+        })
         }
     }
 }
