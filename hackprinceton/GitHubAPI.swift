@@ -59,7 +59,7 @@ import Foundation
 
     // Function to fetch all commits
     func fetchAllCommits() async throws -> [CommitResponse] {
-        let urlString = "\(repository.url)/commits"
+        let urlString = "\(repository.url)/commits?per_page=100"
         return try await performRequest(urlString: urlString)
     }
 

@@ -16,7 +16,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
     return ModelEntity(mesh: edgeBox, materials: [SimpleMaterial(color: color, roughness: 1.0, isMetallic: true)])
 }
 
-@Observable class ARViewModel: NSObject {
+@Observable @MainActor class ARViewModel: NSObject {
     let rootEntity = Entity()
     var loadedEntity: Entity?
     
@@ -71,9 +71,10 @@ func createEdgeEntity(color: UIColor) -> Entity {
     func placeCommits(from repo: Repository, in timelineRoot: Entity) {
         let xSpacing: Float = 0.06
         let y: Float = 0.025
+        let yBranchLabel: Float = 0.07
         let zSpacing: Float = 0.06
         
-        let nodes = computeGraph(from: repo)
+        let (nodes, nodesDict) = computeGraph(from: repo)
         
         for node in nodes {
             guard let commit = repo.commits[node.sha] else { continue }
@@ -117,6 +118,25 @@ func createEdgeEntity(color: UIColor) -> Entity {
                 let angle = atan(xDiff / zDiff)
                 edgeEntity.orientation *= simd_quatf(angle: angle, axis: SIMD3(x: 0, y: 1, z: 0))
                 timelineRoot.addChild(edgeEntity)
+            }
+        }
+        
+        var heads = [Sha: [String]]()
+        for branch in repo.branches {
+            if repo.commits[branch.head] != nil {
+                var branches = heads[branch.head, default: []]
+                branches.append(branch.name)
+                heads[branch.head] = branches
+            }
+        }
+        
+        for (head, branches) in heads {
+            guard let node = nodesDict[head] else { continue }
+            let names = branches.joined(separator: ", ")
+            
+            if let branchEntity = BranchLabelRenderer.shared.renderBranchLabel(for: names, color: node.color) {
+                branchEntity.position = SIMD3(x: Float(node.x) * xSpacing, y: yBranchLabel, z: -Float(node.z) * zSpacing)
+                timelineRoot.addChild(branchEntity)
             }
         }
     }

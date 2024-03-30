@@ -9,7 +9,7 @@ import SwiftUI
 import RealityKit
 
 #if os(visionOS)
-struct ContentView_visionOS: View {
+@MainActor struct ContentView_visionOS: View {
     @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/joyliu-q/hackprinceton")!
     @State var arViewModel = ARViewModel()
     

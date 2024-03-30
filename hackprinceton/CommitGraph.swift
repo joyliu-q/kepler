@@ -37,7 +37,7 @@ extension CommitGraphNode: Identifiable {
     var id: Sha { sha }
 }
 
-func computeGraph(from repo: Repository) -> [CommitGraphNode] {
+func computeGraph(from repo: Repository) -> ([CommitGraphNode], [Sha: CommitGraphNode]) {
     var numEdges = repo.commits.mapValues { _ in 0 }
     for commit in repo.commits.values {
         for parent in commit.parent {
@@ -68,7 +68,7 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
     }
     
     guard !sorted.isEmpty else {
-        return []
+        return ([], [:])
     }
     
     var result = [CommitGraphNode]()
@@ -115,5 +115,5 @@ func computeGraph(from repo: Repository) -> [CommitGraphNode] {
         nodes[commit.sha]!.parents.append(contentsOf: commit.parent.compactMap { nodes[$0] })
     }
     
-    return result
+    return (result, nodes)
 }
