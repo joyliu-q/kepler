@@ -25,10 +25,14 @@ struct ContentView : View {
         }
         .sheet(item: $commit) { commit in
             CommitDetailView(commit: commit)
-                .presentationDetents([.fraction(0.4), .large])
+            .presentationDetents([.fraction(0.4), .large])
                 .presentationDragIndicator(.visible)
                 .presentationBackgroundInteraction(.enabled)
                 .presentationBackground(.regularMaterial)
+        .task({
+            let repo = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile")
+            try! await repo?.populate()
+        })
         }
     }
 }
