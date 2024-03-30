@@ -17,7 +17,7 @@ def Xform "Root"
     )
     {
         rel material:binding = </Root/Purple_Active/DefaultMaterial>
-        double radius = 0.01
+        double radius = 0.02
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
         float3 xformOp:translate = (0.004826337, 0.0074202716, 0)
@@ -82,7 +82,7 @@ def Xform "Root"
                 bool loops = 1
                 float particleSpeed = 0.01
                 float radialAmount = 6.283
-                float3 shapeSize = (0.01, 0.01, 0.01)
+                float3 shapeSize = (0.02, 0.02, 0.02)
                 bool spawnInheritParentColor = 0
                 float spawnVelocityFactor = 0.5
 
@@ -91,8 +91,8 @@ def Xform "Root"
                     float birthRate = 40
                     float4 endColorA = (0.009708012, 0.006369074, 0.028419288, 1)
                     float4 endColorB = (1, 1, 1, 1)
-                    float particleSize = 0.001
-                    float sizeMultiplierAtEndOfLifespan = 0.1
+                    float particleSize = 0.002
+                    float sizeMultiplierAtEndOfLifespan = 0.2
                     float4 startColorA = (0.43246758, 0.19527847, 0.9368362, 1)
                     float4 startColorB = (1, 1, 1, 1)
                     bool useEndColor = 0
@@ -109,6 +109,25 @@ def Xform "Root"
                     bool useEndColor = 0
                     bool useEndColorRange = 0
                     bool useStartColorRange = 1
+                }
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.02, 0.02, 0.02)
+                float radius = 0.02
+                token shapeType = "Sphere"
+
+                def RealityKitStruct "pose"
+                {
                 }
             }
         }
@@ -243,7 +262,7 @@ def Xform "Root"
                 token outputs:out
                 float2 ui:nodegraph:node:pos = (-255, 105)
                 float2 ui:nodegraph:node:size = (148.5, 199)
-                int ui:nodegraph:node:stackingOrder = 4
+                int ui:nodegraph:node:stackingOrder = 5
                 string[] ui:nodegraph:realitykit:node:attributesShowingChildren = ["inputs:diffuseColor"]
             }
         }
@@ -389,7 +408,7 @@ def Xform "Root"
     )
     {
         rel material:binding = </Root/Purple_Inactive/DefaultMaterial>
-        double radius = 0.01
+        double radius = 0.02
         quatf xformOp:orient = (1, 0, 0, 0)
         float3 xformOp:scale = (1, 1, 1)
         float3 xformOp:translate = (-0.06077095, 0.0074202716, 0.026161648)
@@ -440,6 +459,25 @@ def Xform "Root"
                 float2 ui:nodegraph:node:size = (148.5, 199)
                 int ui:nodegraph:node:stackingOrder = 6
                 string[] ui:nodegraph:realitykit:node:attributesShowingChildren = []
+            }
+        }
+
+        def RealityKitComponent "Collider"
+        {
+            uint group = 1
+            uniform token info:id = "RealityKit.Collider"
+            uint mask = 4294967295
+            token type = "Default"
+
+            def RealityKitStruct "Shape"
+            {
+                float3 extent = (0.02, 0.02, 0.02)
+                float radius = 0.02
+                token shapeType = "Sphere"
+
+                def RealityKitStruct "pose"
+                {
+                }
             }
         }
     }
