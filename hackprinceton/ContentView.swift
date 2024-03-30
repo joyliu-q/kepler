@@ -30,7 +30,7 @@ struct ContentView : View {
                 .presentationBackgroundInteraction(.enabled)
                 .presentationBackground(.regularMaterial)
         .task({
-            let repo = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile")
+            let repo = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile-ios")
             try! await repo?.populate()
         })
         }
