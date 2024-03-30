@@ -27,6 +27,10 @@ struct ContentView : View {
             .buttonStyle(BorderedProminentButtonStyle())
             .padding()
         }
+        .task({
+            let repo = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile")
+            try! await repo?.populate()
+        })
         .sheet(item: $temp) { _ in
             CommitDetailView()
                 .presentationDetents([.fraction(0.4), .large])

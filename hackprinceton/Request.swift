@@ -57,19 +57,19 @@ class GitHubAPI {
 
     // Function to fetch all commits
     func fetchAllCommits() async throws -> [CommitResponse] {
-        let urlString = "\(baseURL)\(repository)/commits"
+        let urlString = "\(repository.url)/commits"
         return try await performRequest(urlString: urlString)
     }
 
     // Function to fetch all branches
     func fetchAllBranches() async throws -> [BranchResponse] {
-        let urlString = "\(baseURL)\(repository)/branches"
+        let urlString = "\(repository.url)/branches"
         return try await  performRequest(urlString: urlString)
     }
 
     // Function to fetch a commit for a particular SHA
     func fetchCommit(for sha: String) async throws -> CommitResponse? {
-        let urlString = "\(baseURL)\(repository)/commits/\(sha)"
+        let urlString = "\(repository.url)/commits/\(sha)"
         return try await performRequest(urlString: urlString)
     }
 
@@ -80,7 +80,6 @@ class GitHubAPI {
         }
 
         let (data, _) = try await URLSession.shared.data(from: url)
-        
         return try JSONDecoder().decode(T.self, from: data)
     }
 }
