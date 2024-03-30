@@ -52,7 +52,7 @@ import RealityKit
             do {
                 try await githubAPI.populate()
                 let openAI = OpenAIAPI()
-                await openAI.generateStory(repository: githubAPI.repository)
+                let story = try await openAI.generateStory(repository: githubAPI.repository)
             } catch {
                 logger.error("Failed to populate repo! \(error)")
             }
