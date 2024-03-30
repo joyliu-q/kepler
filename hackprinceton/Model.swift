@@ -103,5 +103,5 @@ struct Repository: Equatable {
 struct GitRepositoryAnalysis: Codable {
     var arcs: [String]
     var keyContributors: [String: [String]]
-    var overallPatterns: [String]
+    var overallPatterns: [String] // pace of commits, timeline insights, overall patterns. if a lot of really fast commits before, and hten slowed down, then flag it. how often people come and go. also time in between commits, how fast for people to push
 }
