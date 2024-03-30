@@ -8,9 +8,32 @@
 import SwiftUI
 import RealityKit
 
+// This is bad, delete this later
+extension String: Identifiable {
+    public var id: String { self }
+}
+
 struct ContentView : View {
+    @State var temp: String? = nil
+    
     var body: some View {
-        ARViewContainer().edgesIgnoringSafeArea(.all)
+        ZStack(alignment: .bottom) {
+            ARViewContainer()
+                .edgesIgnoringSafeArea(.all)
+
+            Button("Show Sheet") {
+                temp = "todo"
+            }
+            .buttonStyle(BorderedProminentButtonStyle())
+            .padding()
+        }
+        .sheet(item: $temp) { _ in
+            CommitDetailView()
+                .presentationDetents([.fraction(0.4), .large])
+                .presentationDragIndicator(.visible)
+                .presentationBackgroundInteraction(.enabled)
+                .presentationBackground(.regularMaterial)
+        }
     }
 }
 
