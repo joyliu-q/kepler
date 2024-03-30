@@ -10,7 +10,7 @@ import RealityKit
 
 
 struct ContentView : View {
-    @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/torvalds/linux")!
+    @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/joyliu-q/hackprinceton")!
     @State var commit: Commit? = nil
     @State var arViewModel = ARViewModel()
     @State var feedbackGenerator = UISelectionFeedbackGenerator()
