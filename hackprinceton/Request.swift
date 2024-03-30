@@ -7,13 +7,32 @@
 
 import Foundation
 
-
 struct GitHubAPI {
     let baseURL = "https://api.github.com/repos/"
-    let repository: String
+    let repositoryURL: String
+    let repository: Repository?
 
-    init(repository: String) {
-        self.repository = repository
+    init?(repositoryURL: String) {
+        self.repositoryURL = repositoryURL
+
+        // Extract the repository path from the URL
+        if let repoPath = GitHubAPI.extractRepoPath(from: repositoryURL) {
+            self.repository = Repository(url: "\(baseURL)\(repoPath)", branches: [], commits: [:])
+        } else {
+            // Handle the error case where the URL is not valid
+            print("Invalid repository URL")
+            return nil  // Initialize as nil to indicate failure
+        }
+    }
+    
+    private static func extractRepoPath(from url: String) -> String? {
+        // Assuming URL format is 'https://github.com/[username]/[repository]'
+        let components = url.split(separator: "/")
+        guard components.count >= 4 else { return nil }
+
+        let username = components[components.count - 2]
+        let repositoryName = components[components.count - 1]
+        return "\(username)/\(repositoryName)"
     }
 
     // Function to fetch all commits
