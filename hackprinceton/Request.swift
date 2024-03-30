@@ -11,7 +11,7 @@ import Foundation
 class GitHubAPI {
     let baseURL = "https://api.github.com/repos/"
     let repositoryURL: String
-    let repository: Repository
+    var repository: Repository
 
     init?(repositoryURL: String) {
         self.repositoryURL = repositoryURL
@@ -31,12 +31,18 @@ class GitHubAPI {
     func populate() async throws {
         let commits = try await fetchAllCommits()
         let branches = try await fetchAllBranches()
-//        self.repository.commits = commits.map({commit in
-//            // TODO:
-//        })
-//        self.repository.branches = branches.map({branchResponse in
-//            // TODO
-//        })
+        self.repository.commits = commits.reduce(into: [:]) { (result, commitResponse) in
+            let sha = commitResponse.sha
+            let parents = commitResponse.parents.map { $0.sha }
+            let author = commitResponse.commit.author.name
+            let title = commitResponse.commit.title
+            let description = commitResponse.commit.description
+            result[sha] = Commit(sha: sha, parent: parents, author: author, title: title, description: description)
+        }
+        
+        self.repository.branches = branches.map { branchResponse in
+            Branch(name: branchResponse.name, head: branchResponse.commit.sha)
+        }
     }
         
     private static func extractRepoPath(from url: String) -> String? {
@@ -88,9 +94,43 @@ enum NetworkError: Error {
 // Decodable structs for parsing JSON
 struct CommitResponse: Decodable {
     // Define properties based on GitHub API JSON structure for commits
+    let sha: String
+    let commit: CommitDetail
+    let parents: [Parent]
 }
+
+struct CommitDetail: Decodable {
+    let author: Author
+    let message: String
+    
+    var title: String {
+        message.components(separatedBy: "\n").first ?? ""
+    }
+    
+    var description: String {
+        let components = message.components(separatedBy: "\n")
+        guard components.count > 1 else { return "" }
+        return components.dropFirst().joined(separator: "\n")
+    }
+}
+
+struct Author: Decodable {
+    let name: String
+    let date: String
+}
+
+struct Parent: Decodable {
+    let sha: String
+}
+
 
 struct BranchResponse: Decodable {
     // Define properties based on GitHub API JSON structure for branches
+    let name: String
+    let commit: BranchCommit
+}
+
+struct BranchCommit: Decodable {
+    let sha: String
 }
 
