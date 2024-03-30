@@ -9,7 +9,7 @@ import Foundation
 
 typealias Sha = String
 
-struct Commit: Equatable, Hashable {
+struct Commit: Equatable, Hashable, Identifiable {
     var sha: Sha
     var parent: [Sha]
     
@@ -19,12 +19,17 @@ struct Commit: Equatable, Hashable {
     var description: String?
     
     var date: Date
+    var id: Sha {
+        sha
+    }
     
     // Displays
     //    var diff: String? // For now, potentially not possible
     
     // Optional metadata fields
     //    var verified: Bool
+    
+    static let dummy = Commit(sha: "abcdjoy", parent: [], author: "joyliu-q", title: "Dummy Commit", description: "This is an example commit. Here I did nothing. Yay :D")
     
 }
 
