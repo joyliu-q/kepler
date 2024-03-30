@@ -146,4 +146,19 @@ func createEdgeEntity(color: UIColor) -> Entity {
         return nil
     }
     #endif
+    
+    var initialScale: Float?
+    
+    func handleScaleGestureChange(magnification: CGFloat) {
+        if initialScale == nil {
+            initialScale = rootEntity.scale.x
+        }
+        
+        let newScale = Float(magnification) * initialScale!
+        rootEntity.scale = SIMD3(x: newScale, y: newScale, z: newScale)
+    }
+    
+    func handleScaleGestureEnd() {
+        initialScale = nil
+    }
 }

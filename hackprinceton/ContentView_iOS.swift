@@ -15,6 +15,17 @@ struct ContentView_iOS : View {
     @State var arViewModel = ARViewModel()
     @State var feedbackGenerator = UISelectionFeedbackGenerator()
     
+    var pinchGesture: some Gesture {
+        MagnifyGesture()
+            .onChanged { gesture in
+                arViewModel.handleScaleGestureChange(magnification: gesture.magnification)
+            }
+            .onEnded { gesture in
+                arViewModel.handleScaleGestureChange(magnification: gesture.magnification)
+                arViewModel.handleScaleGestureEnd()
+            }
+    }
+    
     var body: some View {
         ZStack {
             ARViewContainer(repository: githubAPI.repository)
@@ -29,8 +40,11 @@ struct ContentView_iOS : View {
                               type: "mp3", numLoops: 1)
                 }
                 commit = selectedCommit
+            } else {
+                commit = nil
             }
         }
+        .gesture(pinchGesture)
         .ignoresSafeArea()
         .sheet(item: $commit) { commit in
             CommitDetailView(commit: commit, githubAPI: githubAPI)
