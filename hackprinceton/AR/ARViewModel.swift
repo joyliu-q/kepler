@@ -280,6 +280,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
         guard let arView else { return }
         
         let projection = arView.unproject(location, ontoPlane: rootEntity.transform.matrix, relativeToCamera: false)
+        print("Projected \(location) onto \(projection)")
         guard let projection else { return }
         
         if initialProjection == nil {
