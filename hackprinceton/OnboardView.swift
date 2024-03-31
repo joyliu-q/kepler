@@ -23,9 +23,7 @@ struct OnboardView: View {
     
     var body: some View {
         VStack() {
-            HStack() {
-                Project.logo
-                
+            HStack() {                
                 Text (Project.title).font(.title).bold()
             }
 

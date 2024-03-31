@@ -114,12 +114,14 @@ struct ARViewContainer: UIViewRepresentable {
         let alignmentVar: CTTextAlignment = .center
         let lineBreakModeVar : CTLineBreakMode = .byWordWrapping
         
-        let textMeshResource : MeshResource = .generateText(textString,
-                                           extrusionDepth: depthVar,
-                                           font: fontVar,
-                                           containerFrame: containerFrameVar,
-                                           alignment: alignmentVar,
-                                           lineBreakMode: lineBreakModeVar)
+        let textMeshResource : MeshResource = .generateText(
+            textString,
+           extrusionDepth: depthVar,
+           font: fontVar,
+           containerFrame: containerFrameVar,
+           alignment: alignmentVar,
+           lineBreakMode: lineBreakModeVar
+        )
         
         let textEntity = ModelEntity(mesh: textMeshResource, materials: [materialVar])
         
