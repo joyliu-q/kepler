@@ -23,7 +23,7 @@ struct CommitDetailView: View {
     @State var gptResult: String?
     @State private var currentPresentationDetent = PresentationDetent.customMedium
 
-    private let dateFormatter: DateFormatter = {
+    static let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
             formatter.dateStyle = .medium
             formatter.timeStyle = .short
@@ -34,7 +34,7 @@ struct CommitDetailView: View {
     var body: some View {
         
         VStack {
-            Text(dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
+            Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
             
             if (currentPresentationDetent == PresentationDetent.large) {
                 VStack {

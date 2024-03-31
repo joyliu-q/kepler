@@ -52,7 +52,7 @@ class OpenAIAPI {
         }
     }
     
-    func generateStory(repository: Repository) async {
+    func generateStory(repository: Repository) async throws -> AnalysisResult {
         var prompt = "Create a story about the given Git repository. Highlight the development journey, key events, and patterns. Details:\n"
         
         prompt += "- Include arcs about major feature developments, bug fixes, and team collaborations.\n"
@@ -77,16 +77,76 @@ class OpenAIAPI {
             if let openai_api = apiKey as? String {
                 let openAI = OpenAI(apiToken: openai_api)
                 let result = try await openAI.chats(query: query)
-                for choice in result.choices {
-                    print(choice.message.content ?? "o")
+                guard let resultStory = result.choices.first?.message.content else {
+                    throw URLRequestError.parsingFailed
                 }
+                let analysis = parseAnalysis(from: resultStory)
+                return analysis
             }
             
         } catch {
-            print("Error: \(error.localizedDescription)")
+            throw URLRequestError.requestFailed
         }
+        throw URLRequestError.requestFailed
     }
 
+    func parseAnalysis(from text: String) -> AnalysisResult {
+        var arcs = [String]()
+        var keyContributors = [String: [String]]()
+        var overallPatterns = [String]()
+
+        let lines = text.split(separator: "\n", omittingEmptySubsequences: false)
+
+        var currentSection: String?
+
+        for line in lines {
+            if line.hasPrefix("Arcs:") {
+                currentSection = "arcs"
+                continue
+            } else if line.hasPrefix("Key Contributors:") {
+                currentSection = "keyContributors"
+                continue
+            } else if line.hasPrefix("Overall Patterns:") {
+                currentSection = "overallPatterns"
+                continue
+            }
+
+            guard let section = currentSection else { continue }
+
+            switch section {
+            case "arcs":
+                if line.hasPrefix("- ") {
+                    arcs.append(String(line.dropFirst(2)))
+                }
+            case "keyContributors":
+                if line.contains(":") && line.contains("made") {
+                    let parts = line.split(separator: ":")
+                    let name = parts[0].trimmingCharacters(in: .whitespaces)
+                    keyContributors[name] = parts[1]
+                        .split(separator: ",")
+                        .map { $0.trimmingCharacters(in: .whitespaces) }
+                }
+            case "overallPatterns":
+                if line.hasPrefix("- ") {
+                    overallPatterns.append(String(line.dropFirst(2)))
+                }
+            default: break
+            }
+        }
+
+        return AnalysisResult(arcs: arcs, keyContributors: convertToDict(keyContributorsStrings: keyContributors), overallPatterns: overallPatterns)
+    }
+
+    func convertToDict(keyContributorsStrings: [String: [String]]) -> [String: [String]] {
+        var dict = [String: [String]]()
+        for (key, value) in keyContributorsStrings {
+            // Assuming `value` is a single string containing all contributions separated by commas
+            // This part might need adjustments based on the actual structure of `value`
+            dict[key] = value
+        }
+        return dict
+    }
+    
     func createPrompt(from repository: Repository) async -> String {
         // TODO: analyze issues and comments
         var prompt = "Repository URL: \(repository.url)\n"
@@ -123,8 +183,6 @@ class OpenAIAPI {
         
         // Final message to wrap up the prompt, if needed
         prompt += "End of Commit History.\n"
-        print(prompt)
-        
         return prompt
     }
     
@@ -133,6 +191,14 @@ class OpenAIAPI {
         case invalidURL
         case noData
         case decodingError
+        case parsingFailed
+        case requestFailed
+    }
+    
+    struct AnalysisResult {
+        var arcs: [String]
+        var keyContributors: [String: [String]]
+        var overallPatterns: [String]
     }
 }
 

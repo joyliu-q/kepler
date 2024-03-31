@@ -37,7 +37,7 @@ import RealityKit
                 OnboardView(githubAPI: $githubAPI).frame(width: 300)
             }
         }
-        .environment(arViewModel)
+        .environmentObject(arViewModel)
         .onTapGesture { event in
             if let selectedCommit = arViewModel.lookupCommit(at: event) {
                 arViewModel.selectedCommit = selectedCommit
@@ -58,7 +58,7 @@ import RealityKit
             do {
                 try await githubAPI.populate()
                 let openAI = OpenAIAPI()
-                await openAI.generateStory(repository: githubAPI.repository)
+                let story = try await openAI.generateStory(repository: githubAPI.repository)
             } catch {
                 logger.error("Failed to populate repo! \(error)")
             }
@@ -75,7 +75,7 @@ import RealityKit
 
 struct ARViewContainer: UIViewRepresentable {
     var repository: Repository
-    @Environment(ARViewModel.self) var arViewModel
+    @EnvironmentObject var arViewModel: ARViewModel
     
     func makeUIView(context: Context) -> ARView {
         

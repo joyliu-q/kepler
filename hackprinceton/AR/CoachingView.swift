@@ -10,7 +10,7 @@ import ARKit
 
 #if os(iOS)
 struct CoachingView: UIViewRepresentable {
-    @Environment(ARViewModel.self) var arViewModel
+    @EnvironmentObject var arViewModel: ARViewModel
     
     func makeUIView(context: Context) -> ARCoachingOverlayView {
         let view = ARCoachingOverlayView()

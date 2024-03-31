@@ -88,11 +88,12 @@ def Xform "Root"
 
                 def RealityKitStruct "mainEmitter"
                 {
-                    float birthRate = 40
+                    float birthRate = 100
                     float4 endColorA = (0.009708012, 0.006369074, 0.028419288, 1)
                     float4 endColorB = (1, 1, 1, 1)
-                    float particleSize = 0.002
-                    float sizeMultiplierAtEndOfLifespan = 0.2
+                    double particleLifeSpan = 1
+                    float particleSize = 0.003
+                    float sizeMultiplierAtEndOfLifespan = 0.6
                     float4 startColorA = (0.43246758, 0.19527847, 0.9368362, 1)
                     float4 startColorB = (1, 1, 1, 1)
                     bool useEndColor = 0

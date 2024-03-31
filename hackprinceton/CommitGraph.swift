@@ -43,8 +43,6 @@ func computeGraph(from repo: Repository) -> ([CommitGraphNode], [Sha: CommitGrap
         for parent in commit.parent {
             if let existing = numEdges[parent] {
                 numEdges[parent] = existing + 1
-            } else {
-                print("Warning: \(parent) not found!")
             }
         }
     }
@@ -74,7 +72,8 @@ func computeGraph(from repo: Repository) -> ([CommitGraphNode], [Sha: CommitGrap
     var result = [CommitGraphNode]()
     var nodes = [Sha: CommitGraphNode]()
     var xValues = [Sha: Int]()
-    var nextX = 0 // TODO: Make this less dumb
+    var nextXLeft = -1
+    var nextXRight = 0
     
     var nodeColors = [Sha: UIColor]()
     for commit in sorted.reversed() {
@@ -96,8 +95,8 @@ func computeGraph(from repo: Repository) -> ([CommitGraphNode], [Sha: CommitGrap
             x = assignedX
         } else {
             // If we haven't already assigned our commit an X value, make a new one
-            x = nextX
-            nextX += 1
+            x = nextXRight
+            nextXRight += 1
             xValues[commit.sha] = x
         }
         
@@ -105,9 +104,30 @@ func computeGraph(from repo: Repository) -> ([CommitGraphNode], [Sha: CommitGrap
         result.append(node)
         nodes[commit.sha] = node
         
-        if let firstParent = commit.parent.first, xValues[firstParent] == nil {
+        if let firstParent = commit.parent.first {
             // Assign the first parent to the same X value
-            xValues[firstParent] = x
+            if xValues[firstParent] == nil {
+                xValues[firstParent] = x
+            }
+            
+            // Attempt to assign remaining parents to X values such that the graph is visually balanced
+            for parent in commit.parent.dropFirst() {
+                if xValues[parent] == nil {
+                    let leftDistance = x - nextXLeft
+                    let rightDistance = nextXRight - x
+                    
+                    let newX: Int
+                    if leftDistance < rightDistance {
+                        newX = nextXLeft
+                        nextXLeft -= 1
+                    } else {
+                        newX = nextXRight
+                        nextXRight += 1
+                    }
+                    
+                    xValues[parent] = newX
+                }
+            }
         }
     }
     

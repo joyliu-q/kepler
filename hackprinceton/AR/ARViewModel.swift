@@ -16,10 +16,21 @@ func createEdgeEntity(color: UIColor) -> Entity {
     return ModelEntity(mesh: edgeBox, materials: [SimpleMaterial(color: color, roughness: 1.0, isMetallic: true)])
 }
 
-@Observable @MainActor class ARViewModel: NSObject {
+@MainActor class ARViewModel: NSObject, ObservableObject {
+    let xSpacing: Float = 0.06
+    let y: Float = 0.025
+    let yBranchLabel: Float = 0.07
+    let yDetail: Float = 0.15
+    let zSpacing: Float = 0.06
+    
     let rootEntity = Entity()
     var loadedEntity: Entity?
-    var selectedCommit: Commit?
+    @Published var selectedCommit: Commit?
+    var attachment: Entity?
+    
+    var lastKnownSelectedCommit: Commit?
+    var lastKnownRepositoryState: Repository?
+    var nodesDict: [Sha: CommitGraphNode]?
     
     #if os(iOS)
     var arView: ARView?
@@ -51,11 +62,10 @@ func createEdgeEntity(color: UIColor) -> Entity {
         var brightness: CGFloat = 0
         color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
         
-        let brighterColor = UIColor(hue: hue, saturation:  isActive ? 15: 0 + saturation, brightness: isActive ? 5: 0 + min(1, brightness + 0.2), alpha: 1)
-        
+        let brighterColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
         
         material.baseColor = .init(tint: brighterColor)
-        material.emissiveColor = .init(color: color)
+        material.emissiveColor = .init(color: isActive ? .white : color)
         
         entity.components[ModelComponent.self]!.materials = [material]
         
@@ -65,16 +75,18 @@ func createEdgeEntity(color: UIColor) -> Entity {
         
         #if os(visionOS)
         entity.components.set(InputTargetComponent())
+        entity.components.set(HoverEffectComponent())
         #endif
         
         return entity
     }
     
-    func placeCommits(from repo: Repository, in timelineRoot: Entity) {
-        let xSpacing: Float = 0.06
-        let y: Float = 0.025
-        let yBranchLabel: Float = 0.07
-        let zSpacing: Float = 0.06
+    func placeCommits(from repo: Repository) -> Entity? {
+        guard repo != lastKnownRepositoryState || selectedCommit != lastKnownSelectedCommit else { return nil }
+        logger.warning("Updating commits. Timestamp is \(Date().timeIntervalSince1970)")
+        
+        let timelineRoot = Entity()
+        timelineRoot.name = "TimelineRoot"
         
         let (nodes, nodesDict) = computeGraph(from: repo)
         
@@ -141,26 +153,47 @@ func createEdgeEntity(color: UIColor) -> Entity {
                 timelineRoot.addChild(branchEntity)
             }
         }
+        
+        self.nodesDict = nodesDict
+        self.lastKnownRepositoryState = repo
+        self.lastKnownSelectedCommit = selectedCommit
+        
+        return timelineRoot
+    }
+    
+    func placeAttachment(in attachmentRoot: Entity) {
+        if let selectedCommit, let node = nodesDict?[selectedCommit.sha], let attachment {
+            attachment.position = SIMD3(x: Float(node.x) * xSpacing, y: yDetail, z: -Float(node.z) * zSpacing + 0.002)
+        }
+        
+        if let child = attachmentRoot.children.first, child != attachment {
+            attachmentRoot.removeChild(attachmentRoot.children[0])
+        }
+        
+        if attachmentRoot.children.isEmpty, let attachment {
+            attachmentRoot.addChild(attachment)
+        }
     }
     
     func setup(repository: Repository) {
-        let timelineRoot = Entity()
-        timelineRoot.name = "TimelineRoot"
+        if let timelineRoot = placeCommits(from: repository) {
+            rootEntity.addChild(timelineRoot)
+        }
         
-        placeCommits(from: repository, in: timelineRoot)
-        
-        rootEntity.addChild(timelineRoot)
+        let attachmentRoot = Entity()
+        attachmentRoot.name = "AttachmentRoot"
+        placeAttachment(in: attachmentRoot)
+        rootEntity.addChild(attachmentRoot)
     }
     
     func update(repository: Repository) {
-        let timelineRoot = Entity()
-        timelineRoot.name = "TimelineRoot"
-        
-        placeCommits(from: repository, in: timelineRoot)
-        
-        if let oldTimelineRoot = rootEntity.findEntity(named: "TimelineRoot") {
-            oldTimelineRoot.removeFromParent()
+        if let timelineRoot = placeCommits(from: repository) {
+            rootEntity.findEntity(named: "TimelineRoot")?.removeFromParent()
             rootEntity.addChild(timelineRoot)
+        }
+
+        if let attachmentRoot = rootEntity.findEntity(named: "AttachmentRoot") {
+            placeAttachment(in: attachmentRoot)
         }
     }
     
