@@ -113,27 +113,6 @@ def Xform "Root"
                 }
             }
         }
-
-        def RealityKitComponent "Collider" (
-            active = false
-        )
-        {
-            uint group = 1
-            uniform token info:id = "RealityKit.Collider"
-            uint mask = 4294967295
-            token type = "Default"
-
-            def RealityKitStruct "Shape"
-            {
-                float3 extent = (0.02, 0.02, 0.02)
-                float radius = 0.02
-                token shapeType = "Sphere"
-
-                def RealityKitStruct "pose"
-                {
-                }
-            }
-        }
     }
 
     def Sphere "Blue_Active" (

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ARKit
 import RealityKit
 
 #if os(iOS)
@@ -27,12 +28,26 @@ import RealityKit
             }
     }
     
+    var dragGesture: some Gesture {
+        DragGesture(minimumDistance: 5)
+            .onChanged { gesture in
+                arViewModel.handlePhoneDragGestureChange(location: gesture.location)
+            }
+            .onEnded { gesture in
+                arViewModel.handlePhoneDragGestureChange(location: gesture.location)
+                arViewModel.handlePhoneDragGestureEnd()
+            }
+    }
+    
     var body: some View {
         ZStack {
             
             ARViewContainer(repository: githubAPI.repository)
+
             CoachingView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .allowsHitTesting(false)
+            
             if (githubAPI.repository == Repository.dummy) {
                 OnboardView(githubAPI: $githubAPI)
                     .background(.regularMaterial)
@@ -173,7 +188,6 @@ struct ARViewContainer: UIViewRepresentable {
         
         textAnchor.addChild(textGen(textString: Project.title))
         arView.scene.addAnchor(textAnchor)
-
         return arView
     }
     

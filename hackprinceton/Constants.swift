@@ -10,7 +10,7 @@ import SwiftUI
 import Combine
 
 struct Project {
-    static let title: String = "GitGraph"
+    static let title: String = "Kepler"
 }
 
 func GET_EMOJIS() -> [String: String]  {

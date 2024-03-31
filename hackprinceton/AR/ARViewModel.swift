@@ -79,24 +79,25 @@ func createEdgeEntity(color: UIColor) -> Entity {
         var brightness: CGFloat = 0
         color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
         
-        let brighterColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+        let brighterColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: isExpanded ? 0.6 : 1)
         
         material.baseColor = .init(tint: brighterColor)
-        material.emissiveColor = .init(color: isActive ? .white : color)
+        material.emissiveColor = .init(color: isActive ? .white : color.withAlphaComponent(isExpanded ? 0.6 : 1))
         
         entity.components[ModelComponent.self]!.materials = [material]
         
         // Remember to set your CommitComponent to keep commit data associated
-        if !isExpanded || !isActive {
+        if isExpanded {
+            entity.components.remove(CollisionComponent.self)
+        } else {
             entity.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.02)]))
+            #if os(visionOS)
+            entity.components.set(InputTargetComponent())
+            entity.components.set(HoverEffectComponent())
+            #endif
         }
         
         entity.components.set(CommitComponent(commit: commit))
-        
-        #if os(visionOS)
-        entity.components.set(InputTargetComponent())
-        entity.components.set(HoverEffectComponent())
-        #endif
         
         return entity
     }
@@ -266,6 +267,32 @@ func createEdgeEntity(color: UIColor) -> Entity {
     func handleScaleGestureEnd() {
         initialScale = nil
     }
+    
+    #if os(iOS)
+    var initialPosition: SIMD3<Float>?
+    var initialProjection: SIMD3<Float>?
+    
+    func handlePhoneDragGestureChange(location: CGPoint) {
+        if initialPosition == nil {
+            initialPosition = rootEntity.position
+        }
+        
+        guard let arView else { return }
+        
+        let projection = arView.unproject(location, ontoPlane: rootEntity.transform.matrix, relativeToCamera: false)
+        guard let projection else { return }
+        
+        if initialProjection == nil {
+            initialProjection = projection
+        }
+                
+        rootEntity.position = initialPosition! + (projection - initialProjection!)
+    }
+    
+    func handlePhoneDragGestureEnd() {
+        initialPosition = nil
+    }
+    #endif
     
     #if os(visionOS)
     func expand() {

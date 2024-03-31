@@ -31,12 +31,23 @@ struct CommitDetailView: View {
         }()
     
     
+    @Environment(\.dismissWindow) var dismissWindow
+    
     var body: some View {
         
         VStack {
             HStack(spacing: 24) {
                 Spacer()
+                #if os(visionOS)
+                Button {
+                    dismissWindow(id: "Commit")
+                } label: {
+                    Image(systemName: "arrow.down.right.and.arrow.up.left")
+                }
+                .help("Exit View")
+                #endif
                 Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
+                    .multilineTextAlignment(.center)
                 Button(action: {
                     Task {
                         do {
