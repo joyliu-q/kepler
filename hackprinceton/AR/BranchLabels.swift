@@ -48,6 +48,8 @@ struct BranchLabelView: View {
             return cachedImage
         }
         
+        logger.warning("Rendering new branch label for \(name)")
+        
         let view = BranchLabelView(label: name, color: color)
         let renderer = ImageRenderer(content: view)
         renderer.scale = 2

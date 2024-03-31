@@ -31,7 +31,7 @@ import RealityKit
             CoachingView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .environment(arViewModel)
+        .environmentObject(arViewModel)
         .onTapGesture { event in
             if let selectedCommit = arViewModel.lookupCommit(at: event) {
                 arViewModel.selectedCommit = selectedCommit
@@ -69,7 +69,7 @@ import RealityKit
 
 struct ARViewContainer: UIViewRepresentable {
     var repository: Repository
-    @Environment(ARViewModel.self) var arViewModel
+    @EnvironmentObject var arViewModel: ARViewModel
     
     func makeUIView(context: Context) -> ARView {
         

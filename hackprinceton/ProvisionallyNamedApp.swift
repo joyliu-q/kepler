@@ -21,11 +21,9 @@ struct ProvisionallyNamedApp: App {
             ContentView_iOS()
         }
         #else
-        WindowGroup {
+        ImmersiveSpace {
             ContentView_visionOS()
         }
-        .windowStyle(.volumetric)
-        .defaultSize(Size3D(width: 1, height: 1, depth: 2), in: .meters)
         #endif
     }
 }
