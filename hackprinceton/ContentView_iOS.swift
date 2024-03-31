@@ -34,7 +34,7 @@ import RealityKit
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             if (githubAPI.repository == Repository.dummy) {
-                OnboardView(githubAPI: $githubAPI).frame(width: 300)
+                OnboardView(githubAPI: $githubAPI).frame(width: 500)
             }
         }
         .environmentObject(arViewModel)
