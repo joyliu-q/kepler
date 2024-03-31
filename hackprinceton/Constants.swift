@@ -9,7 +9,4 @@ import Foundation
 
 struct Project {
     static let title: String = "GitGraph"
-    static let logo: some View {
-        
-    }
 }

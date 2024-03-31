@@ -13,9 +13,9 @@ import OSLog
 @MainActor struct ProvisionallyNamedApp: App {
     #if os(visionOS)
     @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile-ios")!
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
     #endif
     
-    @Environment(\.openImmersiveSpace) var openImmersiveSpace
     
     init() {
         CommitComponent.registerComponent()
