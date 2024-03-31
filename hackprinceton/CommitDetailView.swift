@@ -16,7 +16,6 @@ struct CommitDetailView: View {
     var commit: Commit
     @State var githubAPI: GitHubAPI
     
-    @State var diff: [String]?
     // TODO: request gpt
     @State var gptResult: String?
     @State var currentPresentationDetent = PresentationDetent.customMedium
@@ -60,10 +59,8 @@ struct CommitDetailView: View {
                     VStack {
                         VStack(alignment: .leading) {
                             TabView {
-                                if diff != nil {
-                                    CommitDiffView(diff: diff!, commit: commit).tabItem {
-                                        Text("View Diff")
-                                    }
+                                CommitDiffView(commit: commit, githubAPI: githubAPI).tabItem {
+                                    Text("View Diff")
                                 }
                                 
                                 if gptResult != nil {
@@ -85,20 +82,6 @@ struct CommitDetailView: View {
                             }
             }
         }
-        .task({
-            if commit.diff != nil {
-                diff = commit.diff
-            } else {
-                do {
-                    if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
-                        diff = [diffStr]
-                        // TODO: Cache diffs
-                    }
-                } catch {
-                    logger.error("Failed to populate repo! \(error)")
-                }
-            }
-        })
         .padding()
         .presentationDetents([.customMedium, .large], selection: $currentPresentationDetent)
         .presentationDragIndicator(.visible)
@@ -238,27 +221,48 @@ extension String: Identifiable {
 
 /// View for a Diff commits are associated with
 struct CommitDiffView: View {
-    var diff: [String]
+    @State var diff: [String]?
     var commit: Commit
+    var githubAPI: GitHubAPI
     
     var body: some View {
         VStack() {
             CommitMetadataView(commit: commit, hideDescription: true)
             
             VStack(spacing: 32) {
-                ForEach(diff) { d in
-                    CodeViewer(
-                        content: .constant(d),
-                        mode: .json,
-                        darkTheme: .solarized_dark,
-                        lightTheme: .solarized_light,
-                        isReadOnly: true,
-                        fontSize: 24
-                    )
-                    .clipShape(.rect(cornerRadius: 16))
+                if let diff {
+                    ForEach(diff) { d in
+                        CodeViewer(
+                            content: .constant(d),
+                            mode: .json,
+                            darkTheme: .solarized_dark,
+                            lightTheme: .solarized_light,
+                            isReadOnly: true,
+                            fontSize: 24
+                        )
+                        .clipShape(.rect(cornerRadius: 16))
+                    }
+                } else {
+                    ProgressView("Loading diff...")
+                        .frame(maxHeight: .infinity)
+                        .controlSize(.large)
                 }
             }
         }
+        .task({
+            if commit.diff != nil {
+                diff = commit.diff
+            } else {
+                do {
+                    if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
+                        diff = [diffStr]
+                        // TODO: Cache diffs
+                    }
+                } catch {
+                    logger.error("Failed to populate repo! \(error)")
+                }
+            }
+        })
     }
     
 }

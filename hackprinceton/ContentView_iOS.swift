@@ -38,7 +38,7 @@ import RealityKit
                     .background(.regularMaterial)
                     .clipShape(.rect(cornerRadius: 16))
                     .shadow(radius: 10)
-                    .frame(width: 400)
+                    .frame(width: 360)
             }
             VStack {
                 HStack {
@@ -56,7 +56,7 @@ import RealityKit
                     .buttonStyle(.borderedProminent)
                     .padding()
                 }
-                .padding(.top, 30)
+                .padding(.top, 40)
                 Spacer() // Pushes the HStack to the top
             }
             if showAnalysis {
@@ -120,12 +120,18 @@ import RealityKit
         }
         .gesture(pinchGesture)
         .ignoresSafeArea()
-        .sheet(item: $arViewModel.selectedCommit) { commit in
-            CommitDetailView(commit: commit, githubAPI: githubAPI)
-            .presentationDetents([.fraction(0.3), .large])
-                .presentationDragIndicator(.visible)
-                .presentationBackgroundInteraction(.enabled)
-                .presentationBackground(.regularMaterial)
+        .sheet(isPresented: Binding {
+            arViewModel.selectedCommit != nil
+        } set: { value in
+            if !value {
+                arViewModel.selectedCommit = nil
+            }
+        }) {
+            if let commit = arViewModel.selectedCommit {
+                CommitDetailView(commit: commit, githubAPI: githubAPI)
+            } else {
+                EmptyView()
+            }
         }
         .task(id: githubAPI.repositoryURL) {
             do {

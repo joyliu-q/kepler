@@ -19,6 +19,7 @@ struct ExpansionComponent: Component {
     }
 }
 
+#if os(visionOS)
 class ExpansionSystem: System {
     required init(scene: Scene) {}
     
@@ -49,3 +50,4 @@ class ExpansionSystem: System {
         }
     }
 }
+#endif

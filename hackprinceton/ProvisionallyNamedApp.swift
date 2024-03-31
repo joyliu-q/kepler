@@ -22,7 +22,10 @@ import OSLog
     init() {
         CommitComponent.registerComponent()
         ExpansionComponent.registerComponent()
+        
+        #if os(visionOS)
         ExpansionSystem.registerSystem()
+        #endif
     }
     
     var body: some Scene {
