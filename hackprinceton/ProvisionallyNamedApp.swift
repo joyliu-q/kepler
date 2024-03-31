@@ -10,7 +10,13 @@ import SwiftUI
 import OSLog
 
 @main
-struct ProvisionallyNamedApp: App {
+@MainActor struct ProvisionallyNamedApp: App {
+    #if os(visionOS)
+    @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile-ios")!
+    #endif
+    
+    @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    
     init() {
         CommitComponent.registerComponent()
     }
@@ -21,8 +27,23 @@ struct ProvisionallyNamedApp: App {
             ContentView_iOS()
         }
         #else
-        ImmersiveSpace {
-            ContentView_visionOS()
+        WindowGroup {
+            OnboardView(githubAPI: $githubAPI) {
+                Task {
+                    await openImmersiveSpace(id: "Graph")
+                }
+            }
+            .frame(width: 400)
+            .onChange(of: githubAPI.repositoryURL) {
+                Task {
+                    await openImmersiveSpace(id: "Graph")
+                }
+            }
+        }
+        .windowResizability(.contentSize)
+        
+        ImmersiveSpace(id: "Graph") {
+            ContentView_visionOS(githubAPI: githubAPI)
         }
         #endif
     }
