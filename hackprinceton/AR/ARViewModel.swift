@@ -79,24 +79,25 @@ func createEdgeEntity(color: UIColor) -> Entity {
         var brightness: CGFloat = 0
         color.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: nil)
         
-        let brighterColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 1)
+        let brighterColor = UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: isExpanded ? 0.6 : 1)
         
         material.baseColor = .init(tint: brighterColor)
-        material.emissiveColor = .init(color: isActive ? .white : color)
+        material.emissiveColor = .init(color: isActive ? .white : color.withAlphaComponent(isExpanded ? 0.6 : 1))
         
         entity.components[ModelComponent.self]!.materials = [material]
         
         // Remember to set your CommitComponent to keep commit data associated
-        if !isExpanded {
+        if isExpanded {
+            entity.components.remove(CollisionComponent.self)
+        } else {
             entity.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.02)]))
+            #if os(visionOS)
+            entity.components.set(InputTargetComponent())
+            entity.components.set(HoverEffectComponent())
+            #endif
         }
         
         entity.components.set(CommitComponent(commit: commit))
-        
-        #if os(visionOS)
-        entity.components.set(InputTargetComponent())
-        entity.components.set(HoverEffectComponent())
-        #endif
         
         return entity
     }

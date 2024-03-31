@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ARKit
 import RealityKit
 
 #if os(iOS)
@@ -187,7 +188,6 @@ struct ARViewContainer: UIViewRepresentable {
         
         textAnchor.addChild(textGen(textString: Project.title))
         arView.scene.addAnchor(textAnchor)
-
         return arView
     }
     

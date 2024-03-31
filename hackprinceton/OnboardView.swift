@@ -12,6 +12,7 @@ let COMMON_URLS = [
     "https://github.com/joyliu-q/hackprinceton",
     "https://github.com/pennlabs/infrastructure",
     "https://github.com/pennlabs/penn-mobile",
+    "https://github.com/pennlabs/penn-mobile-ios",
     "https://github.com/kubernetes/kubernetes"
 ]
 
