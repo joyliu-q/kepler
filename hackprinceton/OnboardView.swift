@@ -31,7 +31,7 @@ struct OnboardView: View {
                 VStack(alignment: .leading) {
                     Text ("GitHub Repository").font(.headline)
                     TextField("", text: $repositoryURL, prompt: Text("Enter Repository URL")).onSubmit {
-                        if let res = GitHubAPI(repositoryURL: repositoryURL) {
+                        if repositoryURL != githubAPI.repositoryURL, let res = GitHubAPI(repositoryURL: repositoryURL) {
                             githubAPI = res
                             onSubmit()
                         }
@@ -41,8 +41,9 @@ struct OnboardView: View {
                     ForEach(COMMON_URLS, content: {url in
                         Button(action: {
                             repositoryURL = url
-                            if let res = GitHubAPI(repositoryURL: repositoryURL) {
+                            if repositoryURL != githubAPI.repositoryURL, let res = GitHubAPI(repositoryURL: repositoryURL) {
                                 githubAPI = res
+                                onSubmit()
                             }
                         }) {
                             Text(removeHttps(urlString: url))

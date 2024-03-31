@@ -22,15 +22,28 @@ func createEdgeEntity(color: UIColor) -> Entity {
     let yBranchLabel: Float = 0.07
     let yDetail: Float = 0.15
     let zSpacing: Float = 0.06
-    
-    let rootEntity = Entity()
+        
+    let rootEntity: Entity = {
+        let entity = Entity()
+        entity.components.set(ExpansionComponent(state: .notExpanded))
+        return entity
+    }()
     var loadedEntity: Entity?
-    @Published var selectedCommit: Commit?
+    @Published var selectedCommit: Commit? {
+        didSet {
+            if selectedCommit != nil, isExpanded {
+                focusSelectedCommit(preserveInitialPosition: true)
+            }
+        }
+    }
     var attachment: Entity?
     
     var lastKnownSelectedCommit: Commit?
     var lastKnownRepositoryState: Repository?
+    var lastKnownExpanded: Bool?
     var nodesDict: [Sha: CommitGraphNode]?
+    
+    @Published var isExpanded = false
     
     #if os(iOS)
     var arView: ARView?
@@ -40,6 +53,8 @@ func createEdgeEntity(color: UIColor) -> Entity {
         self.arView = arView
         session = arView.session
     }
+    #else
+    let anchorEntity = AnchorEntity(.head)
     #endif
     
     func createCommitEntity(for commit: Commit, color: UIColor, isActive: Bool = false) -> Entity {
@@ -70,7 +85,10 @@ func createEdgeEntity(color: UIColor) -> Entity {
         entity.components[ModelComponent.self]!.materials = [material]
         
         // Remember to set your CommitComponent to keep commit data associated
-        entity.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.02)]))
+        if !isExpanded || !isActive {
+            entity.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.02)]))
+        }
+        
         entity.components.set(CommitComponent(commit: commit))
         
         #if os(visionOS)
@@ -82,7 +100,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
     }
     
     func placeCommits(from repo: Repository) -> Entity? {
-        guard repo != lastKnownRepositoryState || selectedCommit != lastKnownSelectedCommit else { return nil }
+        guard repo != lastKnownRepositoryState || selectedCommit != lastKnownSelectedCommit || lastKnownExpanded != isExpanded else { return nil }
         logger.warning("Updating commits. Timestamp is \(Date().timeIntervalSince1970)")
         
         let timelineRoot = Entity()
@@ -157,21 +175,26 @@ func createEdgeEntity(color: UIColor) -> Entity {
         self.nodesDict = nodesDict
         self.lastKnownRepositoryState = repo
         self.lastKnownSelectedCommit = selectedCommit
+        self.lastKnownExpanded = isExpanded
         
         return timelineRoot
     }
     
     func placeAttachment(in attachmentRoot: Entity) {
-        if let selectedCommit, let node = nodesDict?[selectedCommit.sha], let attachment {
+        let resolvedAttachment: Entity?
+        if let selectedCommit, let node = nodesDict?[selectedCommit.sha], let attachment, !isExpanded {
+            resolvedAttachment = attachment
             attachment.position = SIMD3(x: Float(node.x) * xSpacing, y: yDetail, z: -Float(node.z) * zSpacing + 0.002)
+        } else {
+            resolvedAttachment = nil
         }
         
-        if let child = attachmentRoot.children.first, child != attachment {
+        if let child = attachmentRoot.children.first, child != resolvedAttachment {
             attachmentRoot.removeChild(attachmentRoot.children[0])
         }
         
-        if attachmentRoot.children.isEmpty, let attachment {
-            attachmentRoot.addChild(attachment)
+        if attachmentRoot.children.isEmpty, let resolvedAttachment {
+            attachmentRoot.addChild(resolvedAttachment)
         }
     }
     
@@ -213,6 +236,9 @@ func createEdgeEntity(color: UIColor) -> Entity {
     var initialScale: Float?
     
     func handleScaleGestureChange(magnification: CGFloat) {
+        guard !isExpanded else { return }
+        guard rootEntity.components[ExpansionComponent.self]!.state == .notExpanded else { return }
+        
         if initialScale == nil {
             initialScale = rootEntity.scale.x
         }
@@ -221,7 +247,80 @@ func createEdgeEntity(color: UIColor) -> Entity {
         rootEntity.scale = SIMD3(x: newScale, y: newScale, z: newScale)
     }
     
+    func handleScaleGestureChange(magnification: CGFloat, relativeTo anchorEntity: Entity) {
+        guard !isExpanded else { return }
+        guard rootEntity.components[ExpansionComponent.self]!.state == .notExpanded else { return }
+        
+        if initialScale == nil {
+            initialScale = rootEntity.scale.x
+        }
+        
+        let newScale = Float(magnification) * initialScale!
+        let newPosition = anchorEntity.position(relativeTo: nil) - newScale * anchorEntity.position
+        rootEntity.position = newPosition
+        rootEntity.scale = SIMD3(x: newScale, y: newScale, z: newScale)
+    }
+    
     func handleScaleGestureEnd() {
         initialScale = nil
     }
+    
+    #if os(visionOS)
+    func expand() {
+        handleScaleGestureEnd()
+        isExpanded = true
+        focusSelectedCommit(preserveInitialPosition: false)
+    }
+    
+    func focusSelectedCommit(preserveInitialPosition: Bool) {
+        var i_p = rootEntity.position
+        var i_s = rootEntity.scale
+        
+        if preserveInitialPosition {
+            switch rootEntity.components[ExpansionComponent.self]!.state {
+            case .expansionQueued(let initialPosition, let initialScale, _, _):
+                i_p = initialPosition
+                i_s = initialScale
+            case .shrinkQueued(let initialPosition, let initialScale):
+                i_p = initialPosition
+                i_s = initialScale
+            case .animating(let initialPosition, let initialScale, _, _, _, _, _, _):
+                i_p = initialPosition
+                i_s = initialScale
+            default:
+                break
+            }
+        }
+        
+        guard let commit = selectedCommit, let node = nodesDict?[commit.sha] else { return }
+        
+        let desiredAnchorPoint = SIMD3(x: Float(node.x) * xSpacing, y: y, z: -Float(node.z) * zSpacing)
+        let desiredScale = SIMD3<Float>(60, 60, 60)
+        let headPosition = anchorEntity.position + SIMD3<Float>(0, 1.5, 0)
+        rootEntity.components[ExpansionComponent.self]!.state = .expansionQueued(initialPosition: i_p, initialScale: i_s, desiredPosition: headPosition - desiredAnchorPoint * desiredScale, desiredScale: desiredScale)
+    }
+    
+    func shrink() {
+        isExpanded = false
+        
+        let i_p: SIMD3<Float>
+        let i_s: SIMD3<Float>
+        
+        switch rootEntity.components[ExpansionComponent.self]!.state {
+        case .expansionQueued(let initialPosition, let initialScale, _, _):
+            i_p = initialPosition
+            i_s = initialScale
+        case .shrinkQueued(let initialPosition, let initialScale):
+            i_p = initialPosition
+            i_s = initialScale
+        case .animating(let initialPosition, let initialScale, _, _, _, _, _, _):
+            i_p = initialPosition
+            i_s = initialScale
+        default:
+            return
+        }
+        
+        rootEntity.components[ExpansionComponent.self]!.state = .shrinkQueued(initialPosition: i_p, initialScale: i_s)
+    }
+    #endif
 }

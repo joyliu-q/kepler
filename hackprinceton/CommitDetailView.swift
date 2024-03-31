@@ -15,13 +15,13 @@ extension PresentationDetent {
 }
 
 struct CommitDetailView: View {
-    @State var commit: Commit
+    var commit: Commit
     @State var githubAPI: GitHubAPI
     
     @State var diff: [String]?
     // TODO: request gpt
     @State var gptResult: String?
-    @State private var currentPresentationDetent = PresentationDetent.customMedium
+    @State var currentPresentationDetent = PresentationDetent.customMedium
 
     static let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -77,9 +77,8 @@ struct CommitDetailView: View {
                 do {
                     if let diffStr = try await githubAPI.getDiff(sha: commit.sha) {
                         diff = [diffStr]
-                        commit.diff = diff
+                        // TODO: Cache diffs
                     }
-                    
                 } catch {
                     logger.error("Failed to populate repo! \(error)")
                 }

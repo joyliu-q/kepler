@@ -13,12 +13,16 @@ import OSLog
 @MainActor struct ProvisionallyNamedApp: App {
     #if os(visionOS)
     @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile-ios")!
+    @StateObject var arViewModel = ARViewModel()
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
+    @Environment(\.dismissWindow) var dismissWindow
     #endif
-    
+
     
     init() {
         CommitComponent.registerComponent()
+        ExpansionComponent.registerComponent()
+        ExpansionSystem.registerSystem()
     }
     
     var body: some Scene {
@@ -31,20 +35,35 @@ import OSLog
             OnboardView(githubAPI: $githubAPI) {
                 Task {
                     await openImmersiveSpace(id: "Graph")
+                    dismissWindow(id: "Commit")
+                    arViewModel.shrink()
                 }
             }
             .frame(width: 400)
-            .onChange(of: githubAPI.repositoryURL) {
-                Task {
-                    await openImmersiveSpace(id: "Graph")
-                }
-            }
         }
         .windowResizability(.contentSize)
         
         ImmersiveSpace(id: "Graph") {
             ContentView_visionOS(githubAPI: githubAPI)
+                .environmentObject(arViewModel)
         }
+        
+        WindowGroup(id: "Commit") {
+            if let commit = arViewModel.selectedCommit {
+                CommitDetailView(commit: commit, githubAPI: githubAPI, currentPresentationDetent: .large)
+                    .environmentObject(arViewModel)
+                    .onAppear {
+                        arViewModel.expand()
+                    }
+                    .onDisappear {
+                        arViewModel.shrink()
+                    }
+            } else {
+                Text("No commit")
+                    .padding()
+            }
+        }
+        .defaultSize(width: 400, height: 600)
         #endif
     }
 }

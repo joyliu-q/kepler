@@ -23,6 +23,7 @@
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };
 		85FA24DA2BB78B8500D79DFA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */; };
 		8919069E2BB8ACF400CAC0C6 /* BranchLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */; };
+		891906A22BB90D3E00CAC0C6 /* ExpansionSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891906A12BB90D3E00CAC0C6 /* ExpansionSystem.swift */; };
 		89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987732BB799B300117CF3 /* CommitDetailView.swift */; };
 		89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987762BB7B38600117CF3 /* CommitGraph.swift */; };
 		89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987792BB84EA500117CF3 /* CommitComponent.swift */; };
@@ -48,6 +49,7 @@
 		85FA24D62BB78B8500D79DFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchLabels.swift; sourceTree = "<group>"; };
+		891906A12BB90D3E00CAC0C6 /* ExpansionSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionSystem.swift; sourceTree = "<group>"; };
 		89F987732BB799B300117CF3 /* CommitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailView.swift; sourceTree = "<group>"; };
 		89F987752BB79C1100117CF3 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		89F987762BB7B38600117CF3 /* CommitGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitGraph.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				89F987792BB84EA500117CF3 /* CommitComponent.swift */,
 				89F987802BB868FA00117CF3 /* CoachingView.swift */,
 				8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */,
+				891906A12BB90D3E00CAC0C6 /* ExpansionSystem.swift */,
 			);
 			path = AR;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				89F987832BB8774800117CF3 /* ContentView_visionOS.swift in Sources */,
 				85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */,
 				8522F6A72BB79871000EC4AC /* Model.swift in Sources */,
+				891906A22BB90D3E00CAC0C6 /* ExpansionSystem.swift in Sources */,
 				8522F6A92BB7A607000EC4AC /* GitHubAPI.swift in Sources */,
 				89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */,
 				85FA24D52BB78B8200D79DFA /* ContentView_iOS.swift in Sources */,

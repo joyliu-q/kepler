@@ -11,14 +11,14 @@ import RealityKit
 #if os(visionOS)
 @MainActor struct ContentView_visionOS: View {
     var githubAPI: GitHubAPI
-    @StateObject var arViewModel = ARViewModel()
+    @EnvironmentObject var arViewModel: ARViewModel
     
     var tapGesture: some Gesture {
         SpatialTapGesture()
             .targetedToEntity(where: .has(CommitComponent.self))
             .onEnded { result in
                 let commit = result.entity.components[CommitComponent.self]?.commit
-                if arViewModel.selectedCommit == commit {
+                if arViewModel.selectedCommit == commit && !arViewModel.isExpanded {
                     arViewModel.selectedCommit = nil
                 } else {
                     arViewModel.selectedCommit = commit
@@ -28,12 +28,25 @@ import RealityKit
     
     var pinchGesture: some Gesture {
         MagnifyGesture()
+            .targetedToAnyEntity()
             .onChanged { gesture in
-                arViewModel.handleScaleGestureChange(magnification: gesture.magnification)
+                arViewModel.handleScaleGestureChange(magnification: gesture.magnification, relativeTo: gesture.entity)
             }
             .onEnded { gesture in
-                arViewModel.handleScaleGestureChange(magnification: gesture.magnification)
+                arViewModel.handleScaleGestureChange(magnification: gesture.magnification, relativeTo: gesture.entity)
                 arViewModel.handleScaleGestureEnd()
+            }
+    }
+    
+    var dragGesture: some Gesture {
+        DragGesture()
+            .targetedToAnyEntity()
+            .onChanged { gesture in
+                arViewModel.handleDragGestureChange(translation: gesture.translation3D)
+            }
+            .onEnded { gesture in
+                arViewModel.handleDragGestureChange(translation: gesture.translation3D)
+                arViewModel.handleDragGestureEnd()
             }
     }
     
@@ -44,6 +57,7 @@ import RealityKit
             // arViewModel.rootEntity.position = SIMD3(x: 0, y: -0.3, z: 0.75)
             arViewModel.rootEntity.position = SIMD3(x: 0, y: 1.1, z: -0.2)
             content.add(arViewModel.rootEntity)
+            content.add(arViewModel.anchorEntity)
         } update: { _, attachments in
             arViewModel.attachment = attachments.entity(for: "selectedCommit")
             arViewModel.update(repository: githubAPI.repository)
@@ -75,6 +89,8 @@ struct CommitAttachmentView: View {
     var commit: Commit
     @State var appeared = false
     @EnvironmentObject var arViewModel: ARViewModel
+    @Environment(\.openWindow) var openWindow
+    @Environment(\.dismissWindow) var dismissWindow
     
     var body: some View {
         Group {
@@ -99,7 +115,7 @@ struct CommitAttachmentView: View {
                             .foregroundStyle(.tertiary)
                         
                         Button {
-                            
+                            openWindow(id: "Commit")
                         } label: {
                             Label("Expand", systemImage: "rectangle.expand.vertical")
                                 .labelStyle(.titleAndIcon)
