@@ -1,0 +1,221 @@
+== Info: Could not resolve host: POST
+== Info: Closing connection
+== Info:   Trying 44.193.85.221:443...
+== Info: Connected to api.verbwire.com (44.193.85.221) port 443
+== Info: ALPN: curl offers h2,http/1.1
+== Info: (304) (OUT), TLS handshake, Client hello (1):
+=> Send SSL data, 321 bytes (0x141)
+0000: ...=...r.$Z.:..7.KD5....K.Z....+n....< ..........>......YA..Q2..
+0040: .iR'd.[.b.......0.,.(.$.......k.9.................=.5...../.+.'.
+0080: #.......g.3...E...<./...A.......................+............3.&
+00c0: .$... $..X..]..........y.3...C?.x..............api.verbwire.com.
+0100: ......................................................h2.http/1.
+0140: 1
+== Info:  CAfile: /etc/ssl/cert.pem
+== Info:  CApath: none
+== Info: (304) (IN), TLS handshake, Server hello (2):
+<= Recv SSL data, 100 bytes (0x64)
+0000: ...`..j.....L/.W...._.rY`e...)s../..|# W...*....Q......Fmx...]pY
+0040: ...K..../.........................h2
+== Info: TLSv1.2 (IN), TLS handshake, Certificate (11):
+<= Recv SSL data, 4946 bytes (0x1352)
+0000: ...N..K...0...0.............#..Vv.(.-..#.0...*.H........0<1.0...
+0040: U....US1.0...U....Amazon1.0...U....Amazon RSA 2048 M020...230715
+0080: 000000Z..240813235959Z0.1.0...U....api.verbwire.com0.."0...*.H..
+00c0: ...........0.........XA.F.......=z>.....3.....\...M.....Rba.".#.
+0100: .0..&..W.m|...D.6....f..._..GN.\...jh.(..|..0....z..(....+.P.s..
+0140: ..b...T......hm....|g75.H...9*+..4k....._$......L....H...}...G..
+0180: .$-zJ....{./....1....J...BY.Q[....p..NM]..H.....p....-.M.L....s.
+01c0: .....P\...../.(..$w..........0...0...U.#..0....1R.ZP..|tq.....z.
+0200: ..0...U............zR)-.....s.!7X0...U....0...api.verbwire.com0.
+0240: ..U...........0...U.%..0...+.........+.......0;..U...40200...,.*
+0280: http://crl.r2m02.amazontrust.com/r2m02.crl0...U. ..0.0...g.....0
+02c0: u..+........i0g0-..+.....0..!http://ocsp.r2m02.amazontrust.com06
+0300: ..+.....0..*http://crt.r2m02.amazontrust.com/r2m02.cer0...U.....
+0340: ..0.0..|..+.....y......l...h.f.u....d.....\......2.F|....QHYFq..
+0380: .....X..e.....F0D. =...jZ...E..l.w.........f........ '...].^?7..
+03c0: '....h."...4..d..V....u.H..k..G4..j...0..R..V.,.....9..s....X..-
+0400: .....F0D. \..@.9............"...k.@...jj.E. l."....;.......s..T.
+0440: aKt.'....8...v....k?.."....\k.p.ql.Q..4..=0H.......X........G0E.
+0480:  F.4'?)..A*.P.l.....,..~.......h..!...>).D....g....f..x.(...hw..
+04c0: ...v0...*.H...............y.I`(...0...ZC.,...I...y9.(K..j.q.*.,.
+0500: ...At...9W....Z......Q...x.....A..,`.....-5.7x.....<.d.:w.C.....
+0540: >8S..C>....N......x*$D|........Y;S.tV6...w....b.......}.#..:..9'
+0580: ..A..>.r...c.....z.....y%W..?...BP."U.aY..x....,...'p.......@.Pp
+05c0: +.....l...(hR.#.gV...a~...b0..^0..F........s.JK..N..;....-:..0..
+0600: .*.H........091.0...U....US1.0...U....Amazon1.0...U....Amazon Ro
+0640: ot CA 10...220823222530Z..300823222530Z0<1.0...U....US1.0...U...
+0680: .Amazon1.0...U....Amazon RSA 2048 M020.."0...*.H.............0..
+06c0: .......C..Z.y.)..o...C..X..^7J...E.s...XYo...Fr.yP-.............
+0700: ..2,.t..p<N..Wz.4.U{.e,.....c.,h.....W.;..'ZSL_9Z..E........7.l.
+0740: R..e*.......NZ...b...).y.....gQ8Nx)j..(_'!..\..._R.Xv.#Sd.Y..".&
+0780: ...x>+.G...y8..we....;....z.Y..Ec...[..I.....%:..#hO.Ts8{.2.j,..
+07c0: ...~us........Z0..V0...U.......0.......0...U...........0...U.%..
+0800: 0...+.........+.......0...U.......1R.ZP..|tq.....z...0...U.#..0.
+0840: ......4.......Y....N..0{..+........o0m0/..+.....0..#http://ocsp.
+0880: rootca1.amazontrust.com0:..+.....0...http://crt.rootca1.amazontr
+08c0: ust.com/rootca1.cer0?..U...80604.2.0..http://crl.rootca1.amazont
+0900: rust.com/rootca1.crl0...U. ..0.0...g.....0...*.H.............-N.
+0940: ..@3~/..n..?.K...........][Q..y..Q.....j.7hf..)...[....E...[.u..
+0980: ...v,...'^g..}...@N>(..w..U~.a.4.6....V.I4.pL>.,..5..:.F(.Nj..,.
+09c0: v$*.b.=....&..f........S.Ho.... e".<......t....m[P9.Q[>j..C.R6..
+0a00: ..}.^..4"......U .l.H..........j4.......5.M.9~..ZY.gZwoJ........
+0a40: 0...0..z..........J*'.....+.......0...*.H........0..1.0...U....U
+0a80: S1.0...U....Arizona1.0...U....Scottsdale1%0#..U....Starfield Tec
+0ac0: hnologies, Inc.1;09..U...2Starfield Services Root Certificate Au
+0b00: thority - G20...150525120000Z..371231010000Z091.0...U....US1.0..
+0b40: .U....Amazon1.0...U....Amazon Root CA 10.."0...*.H.............0
+0b80: .........x.q.x..q.G.Pt}n...v..h.X!`.t../..-...CzN...6.....H...6L
+0bc0: ...#.>.7....Ih....v8.a....6..JV.E......t...59/.. P.lz.......G..P
+0c00: 8....9X.....Hg0...x^o..Q.0.f.Ef.T.....H....0-}-tp5..$...Yn.s...2
+0c40: F(.C........$.-K.q\^i.....8..P8o..-b....T.w.g....#.?@ . ...L>;$&
+0c80: ...l............10..-0...U.......0....0...U...........0...U.....
+0cc0: .....4.......Y....N..0...U.#..0...._.....0+8...mJ.....0x..+.....
+0d00: ...l0j0...+.....0.."http://ocsp.rootg2.amazontrust.com08..+.....
+0d40: 0..,http://crt.rootg2.amazontrust.com/rootg2.cer0=..U...60402.0.
+0d80: ..,http://crl.rootg2.amazontrust.com/rootg2.crl0...U. ..0.0...U.
+0dc0:  .0...*.H.............b7B\...>.,...lE...z..X....>..%<.oP..5j..4.
+0e00: 2!.HD...=..sm.....l.(...Gy..~0[.;.`.w.....|^....{"....~.F....&W.
+0e40: 09b.........>.ChlW.... ....j]..Jm.X...91_|s...j...'....F.~.r..R>
+0e80: ...cw.i..9....EM.Q:.]]7dL~0.U$B.6.]...a.....$...t..{E)P9....5%..
+0ec0: jG#1/\.....bQ.*...4.!...y0..u0..]..........JL4...0...*.H........
+0f00: 0h1.0...U....US1%0#..U....Starfield Technologies, Inc.1200..U...
+0f40: )Starfield Class 2 Certification Authority0...090902000000Z..340
+0f80: 628173916Z0..1.0...U....US1.0...U....Arizona1.0...U....Scottsdal
+0fc0: e1%0#..U....Starfield Technologies, Inc.1;09..U...2Starfield Ser
+1000: vices Root Certificate Authority - G20.."0...*.H.............0..
+1040: ........:.*.N....._..S..?... .m):..}<.kv8c.6`..^\.../Y....%C..i.
+1080: R...q..-.No..I....V.+.t....&......j;X..GV.%..pS...t..g..h:..@Z.J
+10c0: N.C.;.V..p.R.{}.:..1.E..`..Y.+..4G....em..,.......I|fN.:m...4...
+1100: ..3.G..k.%.....EF2.p....IC..ls.d.aA...T../.".&..YTh...*/.U.u@`..
+1140: .U9...........0..0...U.......0....0...U...........0...U......._.
+1180: ....0+8...mJ.....0...U.#..0...._.......[U.........0O..+........C
+11c0: 0A0...+.....0...http://o.ss2.us/0!..+.....0...http://x.ss2.us/x.
+1200: cer0&..U....0.0.......http://s.ss2.us/r.crl0...U. ..0.0...U. .0.
+1240: ..*.H.............#...W.}..yL..U..Sn>G...U...6...S.]4(k..U.g..?.
+1280: ..3..X...../..`.........u.O..m......~@,....v.3.w....S..d..'.i.M^
+12c0: ....u.XD-.<p...i..w..1^,...:Gi.y_..T..^.x.`'...w.#Sw]...Y.......
+1300: $.5.z....}..?...rT....Y{..R.F...dv.H..y.nV..,....8.....[......4I
+1340: .V..._.3..G.0.]...
+== Info: TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+<= Recv SSL data, 333 bytes (0x14d)
+0000: ...I...A.]..Y.,.=..)E.a$.i6.....4.e.w#Z.Y.p{Z../?.i.t....*>.S..m
+0040: .T.K#........./.\.U.]..T...G...q...r41..pME.......|~Z;.<...../..
+0080: .9X.".....2.xC..w..F...!r.A.....t.-8N0ox..oK.....(...=g.<.......
+00c0: ..6v....4F.w....9h...........S.h.k.q'...`zV..........T..2.v.-...
+0100: Z..7#.%0...Y....*..#.+.">..K.5.|vF.D>o..Y".O..b...........,..u..
+0140: #...........h
+== Info: TLSv1.2 (IN), TLS handshake, Server finished (14):
+<= Recv SSL data, 4 bytes (0x4)
+0000: ....
+== Info: TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+=> Send SSL data, 70 bytes (0x46)
+0000: ...BA....J.$%p...=..jdR.P.=.E..J..X.K.'C..?.......C...V.K."..j..
+0040: ....#.
+== Info: TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+=> Send SSL data, 1 bytes (0x1)
+0000: .
+== Info: TLSv1.2 (OUT), TLS handshake, Finished (20):
+=> Send SSL data, 16 bytes (0x10)
+0000: .....n.>R.....Z.
+== Info: TLSv1.2 (IN), TLS change cipher, Change cipher spec (1):
+<= Recv SSL data, 1 bytes (0x1)
+0000: .
+== Info: TLSv1.2 (IN), TLS handshake, Finished (20):
+<= Recv SSL data, 16 bytes (0x10)
+0000: ....G...s$'..R>_
+== Info: SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+== Info: ALPN: server accepted h2
+== Info: Server certificate:
+== Info:  subject: CN=api.verbwire.com
+== Info:  start date: Jul 15 00:00:00 2023 GMT
+== Info:  expire date: Aug 13 23:59:59 2024 GMT
+== Info:  subjectAltName: host "api.verbwire.com" matched cert's "api.verbwire.com"
+== Info:  issuer: C=US; O=Amazon; CN=Amazon RSA 2048 M02
+== Info:  SSL certificate verify ok.
+== Info: using HTTP/2
+== Info: [HTTP/2] [1] OPENED stream for https://api.verbwire.com/v1/nft/mint/quickMintFromMetadataUrl
+== Info: [HTTP/2] [1] [:method: POST]
+== Info: [HTTP/2] [1] [:scheme: https]
+== Info: [HTTP/2] [1] [:authority: api.verbwire.com]
+== Info: [HTTP/2] [1] [:path: /v1/nft/mint/quickMintFromMetadataUrl]
+== Info: [HTTP/2] [1] [user-agent: curl/8.4.0]
+== Info: [HTTP/2] [1] [x-api-key: sk_live_f8eaa25e-3519-4c9c-aaf9-2cc0c6927346]
+== Info: [HTTP/2] [1] [accept: application/json]
+== Info: [HTTP/2] [1] [content-length: 409]
+== Info: [HTTP/2] [1] [content-type: multipart/form-data; boundary=------------------------K4REDAVuXQEngHZZDRjSkP]
+=> Send header, 297 bytes (0x129)
+0000: POST /v1/nft/mint/quickMintFromMetadataUrl HTTP/2
+0033: Host: api.verbwire.com
+004b: User-Agent: curl/8.4.0
+0063: X-API-Key: sk_live_f8eaa25e-3519-4c9c-aaf9-2cc0c6927346
+009c: accept: application/json
+00b6: Content-Length: 409
+00cb: Content-Type: multipart/form-data; boundary=--------------------
+010b: ----K4REDAVuXQEngHZZDRjSkP
+0127: 
+=> Send data, 409 bytes (0x199)
+0000: --------------------------K4REDAVuXQEngHZZDRjSkP
+0032: Content-Disposition: form-data; name="allowPlatformToOperateToke
+0072: n"
+0076: 
+0078: true
+007e: --------------------------K4REDAVuXQEngHZZDRjSkP
+00b0: Content-Disposition: form-data; name="chain"
+00de: 
+00e0: sepolia
+00e9: --------------------------K4REDAVuXQEngHZZDRjSkP
+011b: Content-Disposition: form-data; name="metadataUrl"
+014f: 
+0151: https://joyliu.dev
+0165: --------------------------K4REDAVuXQEngHZZDRjSkP--
+== Info: We are completely uploaded and fine
+<= Recv header, 13 bytes (0xd)
+0000: HTTP/2 200 
+<= Recv header, 37 bytes (0x25)
+0000: date: Sun, 31 Mar 2024 03:39:06 GMT
+<= Recv header, 47 bytes (0x2f)
+0000: content-type: application/json; charset=utf-8
+<= Recv header, 21 bytes (0x15)
+0000: content-length: 279
+<= Recv header, 16 bytes (0x10)
+0000: server: Apache
+<= Recv header, 283 bytes (0x11b)
+0000: content-security-policy: default-src 'self';base-uri 'self';bloc
+0040: k-all-mixed-content;font-src 'self' https: data:;frame-ancestors
+0080:  'self';img-src 'self' data:;object-src 'none';script-src 'self'
+00c0: ;script-src-attr 'none';style-src 'self' https: 'unsafe-inline';
+0100: upgrade-insecure-requests
+<= Recv header, 29 bytes (0x1d)
+0000: x-dns-prefetch-control: off
+<= Recv header, 22 bytes (0x16)
+0000: expect-ct: max-age=0
+<= Recv header, 29 bytes (0x1d)
+0000: x-frame-options: SAMEORIGIN
+<= Recv header, 64 bytes (0x40)
+0000: strict-transport-security: max-age=15552000; includeSubDomains
+<= Recv header, 28 bytes (0x1c)
+0000: x-download-options: noopen
+<= Recv header, 33 bytes (0x21)
+0000: x-content-type-options: nosniff
+<= Recv header, 41 bytes (0x29)
+0000: x-permitted-cross-domain-policies: none
+<= Recv header, 30 bytes (0x1e)
+0000: referrer-policy: no-referrer
+<= Recv header, 21 bytes (0x15)
+0000: x-xss-protection: 0
+<= Recv header, 32 bytes (0x20)
+0000: access-control-allow-origin: *
+<= Recv header, 43 bytes (0x2b)
+0000: etag: W/"117-FvTIZLkE0uxivfYh8HYEoDddn1Q"
+<= Recv header, 23 bytes (0x17)
+0000: vary: Accept-Encoding
+<= Recv header, 2 bytes (0x2)
+0000: 
+<= Recv data, 279 bytes (0x117)
+0000: {"quick_mint":{"transactionHash":"0xc40bafc46693a82e191a6b466b1b
+0040: 6165c21d5cc6033bde41a4feb2c5b9e68487","blockExplorer":"https://s
+0080: epolia.etherscan.io/tx/0xc40bafc46693a82e191a6b466b1b6165c21d5cc
+00c0: 6033bde41a4feb2c5b9e68487","transactionID":"6608dacd72f1e828b0e1
+0100: 6793","status":"Sent"}}
+== Info: Connection #1 to host api.verbwire.com left intact
