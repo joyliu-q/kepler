@@ -1,0 +1,24 @@
+{
+  "originHash" : "f409a0c844177efe586e85cc141cc0b4f3875d22a07626913c64e040a4cffa6e",
+  "pins" : [
+    {
+      "identity" : "codeviewer",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ashleyzhang01/CodeViewer",
+      "state" : {
+        "branch" : "main",
+        "revision" : "10b101492c21f8e0de7bc3c9bf6883b4daef7b7a"
+      }
+    },
+    {
+      "identity" : "openai",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/MacPaw/OpenAI.git",
+      "state" : {
+        "revision" : "35afc9a6ee127b8f22a85a31aec2036a987478af",
+        "version" : "0.2.6"
+      }
+    }
+  ],
+  "version" : 3
+}
