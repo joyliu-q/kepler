@@ -22,7 +22,7 @@ func GET_EMOJIS() -> [String: String]  {
 let EMOJIS = GET_EMOJIS()
 
 struct EmojiTextView: View {
-    @State var textWithEmoji: String
+    var textWithEmoji: String
     @State var extractedText: String
     @State private var emojiImage: UIImage?
     
