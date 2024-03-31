@@ -31,7 +31,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
     var lastKnownSelectedCommit: Commit?
     var lastKnownRepositoryState: Repository?
     var nodesDict: [Sha: CommitGraphNode]?
-    
+        
     #if os(iOS)
     var arView: ARView?
     var session: ARSession?
@@ -47,6 +47,39 @@ func createEdgeEntity(color: UIColor) -> Entity {
         
         if loadedEntity == nil {
             loadedEntity = try! Entity.load(named: "Scene", in: .main)
+            
+            if var activeEntity = loadedEntity?.findEntity(named: "Purple_Active") {
+                if !activeEntity.children.isEmpty {
+                    activeEntity = activeEntity.children[0]
+                }
+                
+                do {
+                    let mesh = activeEntity.components[ModelComponent.self]!.mesh
+                    var contents = mesh.contents
+                    
+                    contents.models = .init(contents.models.map { model in
+                        var newModel = model
+                        newModel.parts = .init(newModel.parts.flatMap { part in
+                            var flipped = part
+                            guard let normals = part.normals, let triangleIndices = part.triangleIndices else {
+                                return [part]
+                            }
+                            
+                            flipped.normals = .init(normals.map { -$0 })
+                            flipped.triangleIndices = .init(triangleIndices.reversed())
+                            flipped.id += "-inverted"
+                            
+                            return [part, flipped]
+                        })
+                        
+                        return newModel
+                    })
+                    
+                    try mesh.replace(with: contents)
+                } catch {
+                    logger.error("Failed to replace flip active normals: \(error)")
+                }
+            }
         }
         
         var entity = loadedEntity!.findEntity(named: entityName)!.clone(recursive: true)
