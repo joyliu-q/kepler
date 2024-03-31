@@ -22,6 +22,8 @@ import RealityKit
                     arViewModel.selectedCommit = nil
                 } else {
                     arViewModel.selectedCommit = commit
+                    playSound(sound: "whoosh",
+                              type: "mp3", numLoops: 1)
                 }
             }
     }

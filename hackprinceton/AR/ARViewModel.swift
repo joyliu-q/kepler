@@ -267,6 +267,32 @@ func createEdgeEntity(color: UIColor) -> Entity {
         initialScale = nil
     }
     
+    #if os(iOS)
+    var initialPosition: SIMD3<Float>?
+    var initialProjection: SIMD3<Float>?
+    
+    func handlePhoneDragGestureChange(location: CGPoint) {
+        if initialPosition == nil {
+            initialPosition = rootEntity.position
+        }
+        
+        guard let arView else { return }
+        
+        let projection = arView.unproject(location, ontoPlane: rootEntity.transform.matrix, relativeToCamera: false)
+        guard let projection else { return }
+        
+        if initialProjection == nil {
+            initialProjection = projection
+        }
+                
+        rootEntity.position = initialPosition! + (projection - initialProjection!)
+    }
+    
+    func handlePhoneDragGestureEnd() {
+        initialPosition = nil
+    }
+    #endif
+    
     #if os(visionOS)
     func expand() {
         handleScaleGestureEnd()
