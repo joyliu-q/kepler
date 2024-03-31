@@ -62,7 +62,7 @@ class OpenAIAPI {
         prompt += "- Get overall patterns and insights drawn from all the commits (such as pace of commits, timeline insights, overall patterns. If there were a lot of really fast commits before, and then the pace slowed down, then flag that. You can also look at how often people come and go. Also time in between commits could be useful, and how fast it takes for people to push too.) Keep these concise but encompassing.\n"
         prompt += "The format of your response should include Arcs, a comma-separated list of the story arcs; keyContributors, with the key contributors and the patterns you found in the following format ['Author': ['Some Pattern']]; overallPatterns, a short description of the overall patterns/insights. Arcs, keyContributors, and overallPatterns should be separated by new lines. Don't be repetitive."
 
-        let query = ChatQuery(model: "gpt-3.5-turbo-0613",
+        let query = ChatQuery(model: .gpt3_5Turbo,
                               messages: [.init(role: .system, content: prompt),
                                          .init(role: .user, content: await createPrompt(from: repository))],
                               temperature: 0.5,
@@ -119,7 +119,7 @@ class OpenAIAPI {
                     arcs.append(String(line.dropFirst(2)))
                 }
             case "keyContributors":
-                if line.contains(":") && line.contains("made") {
+                if line.contains(":") {
                     let parts = line.split(separator: ":")
                     let name = parts[0].trimmingCharacters(in: .whitespaces)
                     keyContributors[name] = parts[1]
@@ -129,6 +129,8 @@ class OpenAIAPI {
             case "overallPatterns":
                 if line.hasPrefix("- ") {
                     overallPatterns.append(String(line.dropFirst(2)))
+                } else {
+                    overallPatterns = line.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
                 }
             default: break
             }
@@ -170,12 +172,13 @@ class OpenAIAPI {
             let dateString = dateFormatter.string(from: commit.date)
             
             let title = commit.title
-            let description = commit.description ?? "No description provided."
+            let description = commit.description ?? ""
+            let truncatedDescription = String(description.prefix(20))
             
             prompt += "  Author: \(commit.author)\n"
             prompt += "  Date: \(dateString)\n"
             prompt += "  Title: \(title)\n"
-            prompt += "  Description: \(description)\n"
+            prompt += "  Description: \(truncatedDescription)\n"
             
             // Add a separator for readability
             prompt += "\n"
@@ -183,6 +186,7 @@ class OpenAIAPI {
         
         // Final message to wrap up the prompt, if needed
         prompt += "End of Commit History.\n"
+        print(prompt)
         return prompt
     }
     

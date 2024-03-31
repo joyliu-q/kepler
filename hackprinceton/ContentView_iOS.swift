@@ -14,6 +14,8 @@ import RealityKit
     
     @State var arViewModel = ARViewModel()
     @State var feedbackGenerator = UISelectionFeedbackGenerator()
+    @State private var showAnalysis: Bool = false
+    @State private var analysisResult: OpenAIAPI.AnalysisResult?
     
     var pinchGesture: some Gesture {
         MagnifyGesture()
@@ -32,11 +34,79 @@ import RealityKit
             ARViewContainer(repository: githubAPI.repository)
             CoachingView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-            
             if (githubAPI.repository == Repository.dummy) {
                 OnboardView(githubAPI: $githubAPI).frame(width: 500)
             }
+            VStack {
+                HStack {
+                    Button("Generate Analysis") {
+                        Task {
+                            let openAI = OpenAIAPI()
+                            showAnalysis = true
+                            do {
+                                analysisResult = try await openAI.generateStory(repository: githubAPI.repository)
+                            } catch {
+                                print(error)
+                            }
+                        }
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding()
+                }
+                .padding(.top, 30)
+                Spacer() // Pushes the HStack to the top
+            }
+            if showAnalysis {
+                VStack(spacing: 20) {
+                    if let analysisResult = analysisResult {
+                        ScrollView {
+                            // VStack to display AnalysisResult
+                            VStack(alignment: .leading, spacing: 10) {
+                                Text("Arcs:")
+                                    .fontWeight(.bold)
+                                ForEach(analysisResult.arcs, id: \.self) { arc in
+                                    Text(arc)
+                                }
+
+                                Text("\nKey Contributors:")
+                                    .fontWeight(.bold)
+                                ForEach(analysisResult.keyContributors.keys.sorted(), id: \.self) { key in
+                                    Text("\(key): \(analysisResult.keyContributors[key]?.joined(separator: ", ") ?? "")")
+                                }
+
+                                Text("\nOverall Patterns:")
+                                    .fontWeight(.bold)
+                                ForEach(analysisResult.overallPatterns, id: \.self) { pattern in
+                                    Text(pattern)
+                                }
+                            }
+                            .padding()
+                        }
+                    } else {
+                        ProgressView()
+                    }
+                }
+                .frame(width: 300, height: 400) // Adjust the panel size as needed
+                .background(Color.black.opacity(0.75)) // A darker background for better contrast
+                .foregroundColor(.white) // Text color for better readability
+                .cornerRadius(20)
+                .shadow(radius: 10)
+                .overlay(
+                    Button(action: {
+                        showAnalysis = false
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.white)
+                            .padding(10)
+                            .background(Color.black.opacity(0.75))
+                            .clipShape(Circle())
+                    }
+                    .padding(5), // Adds padding around the button itself for a slightly larger tap target
+                    alignment: .topTrailing // Places the button in the top-right corner of the overlay
+                )
+            }
         }
+        .ignoresSafeArea()
         .environmentObject(arViewModel)
         .onTapGesture { event in
             if let selectedCommit = arViewModel.lookupCommit(at: event) {
@@ -57,8 +127,6 @@ import RealityKit
         .task(id: githubAPI.repositoryURL) {
             do {
                 try await githubAPI.populate()
-                let openAI = OpenAIAPI()
-                let story = try await openAI.generateStory(repository: githubAPI.repository)
             } catch {
                 logger.error("Failed to populate repo! \(error)")
             }
