@@ -35,7 +35,11 @@ import RealityKit
             CoachingView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             if (githubAPI.repository == Repository.dummy) {
-                OnboardView(githubAPI: $githubAPI).frame(width: 500)
+                OnboardView(githubAPI: $githubAPI)
+                    .background(.regularMaterial)
+                    .clipShape(.rect(cornerRadius: 16))
+                    .shadow(radius: 10)
+                    .frame(width: 400)
             }
             VStack {
                 HStack {
@@ -162,7 +166,7 @@ struct ARViewContainer: UIViewRepresentable {
         
         let textAnchor = AnchorEntity(.plane(.horizontal, classification: .any, minimumBounds: SIMD2<Float>(0.2, 0.2)))
         
-        textAnchor.addChild(textGen(textString: "GitGraph"))
+        textAnchor.addChild(textGen(textString: Project.title))
         arView.scene.addAnchor(textAnchor)
 
         return arView

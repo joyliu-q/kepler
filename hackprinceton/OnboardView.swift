@@ -12,23 +12,30 @@ let COMMON_URLS = [
     "https://github.com/joyliu-q/hackprinceton",
     "https://github.com/pennlabs/infrastructure",
     "https://github.com/pennlabs/penn-mobile",
+    "https://github.com/kubernetes/kubernetes"
 ]
 
 struct OnboardView: View {
     
     @Binding var githubAPI: GitHubAPI
     @State var repositoryURL: String = ""
+    var onSubmit: () -> Void = {}
     
     var body: some View {
         VStack() {
+            HStack() {
+                Project.logo
+                
+                Text (Project.title).font(.title).bold()
+            }
+
             VStack() {
                 VStack(alignment: .leading) {
-                    Text ("GitGraph").font(.title).bold()
-                    
                     Text ("GitHub Repository").font(.headline)
                     TextField("", text: $repositoryURL, prompt: Text("Enter Repository URL")).onSubmit {
                         if let res = GitHubAPI(repositoryURL: repositoryURL) {
                             githubAPI = res
+                            onSubmit()
                         }
                     }
                 }
@@ -44,9 +51,8 @@ struct OnboardView: View {
                         }.buttonStyle(.bordered)
                     })
                 }
-            }.padding(24).background(.regularMaterial).clipShape(.rect(cornerRadius: 16))
-                .shadow(radius: 10)
-        }.padding(48)
+            }.padding(24)
+        }
     }
     
     private func removeHttps(urlString: String) -> String {

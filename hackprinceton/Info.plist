@@ -6,14 +6,5 @@
 	<string>$(OPENAI_API)</string>
 	<key>SECRET</key>
 	<string>$(VERBWIRE_API)</string>
-	<key>UIApplicationSceneManifest</key>
-	<dict>
-		<key>UIApplicationPreferredDefaultSceneSessionRole</key>
-		<string>UISceneSessionRoleImmersiveSpaceApplication</string>
-		<key>UIApplicationSupportsMultipleScenes</key>
-		<false/>
-		<key>UISceneConfigurations</key>
-		<dict/>
-	</dict>
 </dict>
 </plist>

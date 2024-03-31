@@ -10,11 +10,11 @@ import RealityKit
 
 #if os(visionOS)
 @MainActor struct ContentView_visionOS: View {
-    @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile-ios")!
+    var githubAPI: GitHubAPI
     @StateObject var arViewModel = ARViewModel()
     
     var tapGesture: some Gesture {
-        TapGesture()
+        SpatialTapGesture()
             .targetedToEntity(where: .has(CommitComponent.self))
             .onEnded { result in
                 let commit = result.entity.components[CommitComponent.self]?.commit
@@ -42,7 +42,7 @@ import RealityKit
             arViewModel.attachment = attachments.entity(for: "selectedCommit")
             arViewModel.setup(repository: githubAPI.repository)
             // arViewModel.rootEntity.position = SIMD3(x: 0, y: -0.3, z: 0.75)
-            arViewModel.rootEntity.position = SIMD3(x: 0, y: 1.5, z: -0.2)
+            arViewModel.rootEntity.position = SIMD3(x: 0, y: 1.1, z: -0.2)
             content.add(arViewModel.rootEntity)
         } update: { _, attachments in
             arViewModel.attachment = attachments.entity(for: "selectedCommit")

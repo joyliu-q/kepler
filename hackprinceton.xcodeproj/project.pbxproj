@@ -16,6 +16,7 @@
 		85845DE12BB8894000B71FF0 /* whoosh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 85845DE02BB8894000B71FF0 /* whoosh.mp3 */; };
 		85845DE32BB898B100B71FF0 /* Verbwire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE22BB898B100B71FF0 /* Verbwire.swift */; };
 		85845DE52BB8D63D00B71FF0 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE42BB8D63D00B71FF0 /* OnboardView.swift */; };
+		85845DE72BB8F3F600B71FF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE62BB8F3F600B71FF0 /* Constants.swift */; };
 		85E008082BB7D114006F499A /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 85E008072BB7D114006F499A /* CodeViewer */; };
 		85FA24D32BB78B8200D79DFA /* ProvisionallyNamedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */; };
 		85FA24D52BB78B8200D79DFA /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */; };
@@ -40,6 +41,7 @@
 		85845DE02BB8894000B71FF0 /* whoosh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whoosh.mp3; sourceTree = "<group>"; };
 		85845DE22BB898B100B71FF0 /* Verbwire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Verbwire.swift; sourceTree = "<group>"; };
 		85845DE42BB8D63D00B71FF0 /* OnboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardView.swift; sourceTree = "<group>"; };
+		85845DE62BB8F3F600B71FF0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		85FA24CF2BB78B8200D79DFA /* hackprinceton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackprinceton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProvisionallyNamedApp.swift; sourceTree = "<group>"; };
 		85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView_iOS.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */,
 				85845DE22BB898B100B71FF0 /* Verbwire.swift */,
 				89F987732BB799B300117CF3 /* CommitDetailView.swift */,
+				85845DE62BB8F3F600B71FF0 /* Constants.swift */,
 				85845DE42BB8D63D00B71FF0 /* OnboardView.swift */,
 				85845DE02BB8894000B71FF0 /* whoosh.mp3 */,
 				85FA24D62BB78B8500D79DFA /* Assets.xcassets */,
@@ -225,6 +228,7 @@
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
 				85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */,
 				89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */,
+				85845DE72BB8F3F600B71FF0 /* Constants.swift in Sources */,
 				89F987832BB8774800117CF3 /* ContentView_visionOS.swift in Sources */,
 				85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */,
 				8522F6A72BB79871000EC4AC /* Model.swift in Sources */,
@@ -373,6 +377,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = hackprinceton/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
@@ -409,6 +414,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = hackprinceton/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
