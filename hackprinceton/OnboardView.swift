@@ -23,13 +23,20 @@ struct OnboardView: View {
     
     var body: some View {
         VStack() {
-            HStack() {                
-                Text (Project.title).font(.title).bold()
+            HStack() {
+                Image("icon")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(
+                        width: 64,
+                        height: 64
+                    )
+                Text(Project.title).font(.title).bold()
             }
-
+            
             VStack() {
                 VStack(alignment: .leading) {
-                    Text ("GitHub Repository").font(.headline)
+                    Text("GitHub Repository").font(.headline)
                     TextField("", text: $repositoryURL, prompt: Text("Enter Repository URL")).onSubmit {
                         if repositoryURL != githubAPI.repositoryURL, let res = GitHubAPI(repositoryURL: repositoryURL) {
                             githubAPI = res
@@ -47,9 +54,11 @@ struct OnboardView: View {
                             }
                         }) {
                             Text(removeHttps(urlString: url))
-                        }.buttonStyle(.bordered)
+                            .frame(maxWidth: .infinity)
+                        }
+                        .buttonStyle(.bordered)
                     })
-                }
+                }.frame(maxWidth: .infinity)
             }.padding(24)
         }
     }

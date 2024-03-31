@@ -22,6 +22,8 @@ struct CommitDetailView: View {
     // TODO: request gpt
     @State var gptResult: String?
     @State var currentPresentationDetent = PresentationDetent.customMedium
+        
+    @Environment(\.openURL) private var openURL
 
     static let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -34,41 +36,60 @@ struct CommitDetailView: View {
     var body: some View {
         
         VStack {
-            Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
-            
-            if (currentPresentationDetent == PresentationDetent.large) {
-                VStack {
-                    
+            HStack {
+                Spacer()
+                Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
+                Spacer()
                 
-                VStack(alignment: .leading) {
-                    TabView {
-                        
-#if os(iOS)
-                        if diff != nil {
-                            CommitDiffView(diff: diff!, commit: commit).tabItem {
-                                Text("View Diff")
-                            }
-                        }
-#endif
-                        
-                        if gptResult != nil {
-                            CommitGptView(gpt: gptResult!, commit: commit).tabItem {
-                                Text("GPT Analyze")
-                            }
-                        }
-                    }.tabViewStyle(.page)
-                }}} else { 
-                    VStack() {
-                        Spacer()
-                        CommitMetadataView(commit: commit)
-                        Spacer()
-                        Button(action: {
-                            currentPresentationDetent = currentPresentationDetent == PresentationDetent.large ? PresentationDetent.customMedium : PresentationDetent.large
-                        }) {
-                            Text("Expand to View Details")
+                Button(action: {
+                    Task {
+                        do {
+                            let commitUrl = "\(githubAPI.repository.url)/commit/\(commit.sha)"
+                            let response = try await mintRepository(commitUrl: commitUrl)
+                            // Handle the response
+                            print(response)
+                        } catch {
+                            // Handle error
+                            print(error)
                         }
                     }
-                }
+                }) {
+                    Image(systemName: "dollarsign.circle.fill")
+                        .foregroundColor(.green)
+                }}
+                .padding(.top, 30)
+                .padding(.trailing)
+                if (currentPresentationDetent == PresentationDetent.large) {
+                    VStack {
+                        VStack(alignment: .leading) {
+                            TabView {
+                                
+#if os(iOS)
+                                if diff != nil {
+                                    CommitDiffView(diff: diff!, commit: commit).tabItem {
+                                        Text("View Diff")
+                                    }
+                                }
+#endif
+                                
+                                if gptResult != nil {
+                                    CommitGptView(gpt: gptResult!, commit: commit).tabItem {
+                                        Text("GPT Analyze")
+                                    }
+                                }
+                            }.tabViewStyle(.page)
+                        }}} else {
+                            VStack() {
+                                Spacer()
+                                CommitMetadataView(commit: commit)
+                                Spacer()
+                                Button(action: {
+                                    currentPresentationDetent = currentPresentationDetent == PresentationDetent.large ? PresentationDetent.customMedium : PresentationDetent.large
+                                }) {
+                                    Text("Expand to View Details")
+                                }
+                            }
+            }
         }
         .task({
             if commit.diff != nil {
@@ -90,6 +111,52 @@ struct CommitDetailView: View {
         .presentationBackgroundInteraction(.enabled)
         .presentationBackground(.regularMaterial)
     }
+    
+    func mintRepository(commitUrl: String) async throws {
+        guard let verbwire_api_key = Bundle.main.object(forInfoDictionaryKey:"VERBWIRE_API") else {
+            fatalError("Missing key")
+        }
+
+        let content = try MultipartBody {
+            try MultipartContent(name: "allowPlatformToOperateToken", content: "true")
+            try MultipartContent(name: "chain", content: "sepolia")
+            try MultipartContent(name: "metadataUrl", content: commitUrl)
+        }
+        
+        let headers = [
+          "accept": "application/json",
+          "content-type": content.contentType,
+          "X-API-Key": verbwire_api_key as! String
+        ]
+
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.verbwire.com/v1/nft/mint/quickMintFromMetadataUrl")! as URL,
+                                                cachePolicy: .useProtocolCachePolicy,
+                                            timeoutInterval: 10.0)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = try content.assembleData()
+        request.timeoutInterval = 60
+
+        let session = URLSession.shared
+        let (urlResponse, _) = try await URLSession.shared.data(for: request as URLRequest)
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601  // Handling ISO 8601 formatted dates
+            
+        let result = try decoder.decode(MintResponse.self, from: urlResponse)
+        openURL(URL(string: result.quick_mint.blockExplorer)!)
+    }
+}
+
+
+struct MintResponse: Decodable  {
+    struct QuickMintResponse: Decodable {
+        let blockExplorer: String
+        let transactionID: String
+        let transactionHash: String
+        let status: String
+    }
+    let quick_mint: QuickMintResponse
 }
 
 /// View for seeing all Commit Metadata

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6CEDA60C2BB883A300CBF403 /* Scene.usda in Resources */ = {isa = PBXBuildFile; fileRef = 6CEDA60B2BB8839400CBF403 /* Scene.usda */; };
 		6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 6CEDA60E2BB8910300CBF403 /* OpenAI */; };
+		6CEDA6112BB90FCF00CBF403 /* Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEDA6102BB90FCF00CBF403 /* Multipart.swift */; };
 		8522F6A72BB79871000EC4AC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A62BB79871000EC4AC /* Model.swift */; };
 		8522F6A92BB7A607000EC4AC /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */; };
 		85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		6C067D7F2BB88139009C0F3E /* Package.realitycomposerpro */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Package.realitycomposerpro; path = RealityKitContent/Package.realitycomposerpro; sourceTree = "<group>"; };
 		6CEDA60B2BB8839400CBF403 /* Scene.usda */ = {isa = PBXFileReference; lastKnownFileType = text; path = Scene.usda; sourceTree = "<group>"; };
+		6CEDA6102BB90FCF00CBF403 /* Multipart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Multipart.swift; sourceTree = "<group>"; };
 		8522F6A62BB79871000EC4AC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GitHubAPI.swift; sourceTree = "<group>"; };
 		85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIAPI.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */,
 				85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */,
 				85845DE22BB898B100B71FF0 /* Verbwire.swift */,
+				6CEDA6102BB90FCF00CBF403 /* Multipart.swift */,
 				89F987732BB799B300117CF3 /* CommitDetailView.swift */,
 				85845DE62BB8F3F600B71FF0 /* Constants.swift */,
 				85845DE42BB8D63D00B71FF0 /* OnboardView.swift */,
@@ -229,6 +232,7 @@
 				89F9877E2BB8574F00117CF3 /* ARViewModel.swift in Sources */,
 				8919069E2BB8ACF400CAC0C6 /* BranchLabels.swift in Sources */,
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
+				6CEDA6112BB90FCF00CBF403 /* Multipart.swift in Sources */,
 				85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */,
 				89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */,
 				85845DE72BB8F3F600B71FF0 /* Constants.swift in Sources */,

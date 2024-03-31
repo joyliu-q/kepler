@@ -4,7 +4,7 @@
 <dict>
 	<key>OPENAI_APIKEY</key>
 	<string>$(OPENAI_API)</string>
-	<key>SECRET</key>
+	<key>VERBWIRE_API</key>
 	<string>$(VERBWIRE_API)</string>
 </dict>
 </plist>
