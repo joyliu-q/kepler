@@ -18,6 +18,7 @@ struct OnboardView: View {
     
     @Binding var githubAPI: GitHubAPI
     @State var repositoryURL: String = ""
+    var onSubmit: () -> Void = {}
     
     var body: some View {
         VStack() {
@@ -29,6 +30,7 @@ struct OnboardView: View {
                     TextField("", text: $repositoryURL, prompt: Text("Enter Repository URL")).onSubmit {
                         if let res = GitHubAPI(repositoryURL: repositoryURL) {
                             githubAPI = res
+                            onSubmit()
                         }
                     }
                 }
@@ -44,9 +46,8 @@ struct OnboardView: View {
                         }.buttonStyle(.bordered)
                     })
                 }
-            }.padding(24).background(.regularMaterial).clipShape(.rect(cornerRadius: 16))
-                .shadow(radius: 10)
-        }.padding(48)
+            }.padding(24)
+        }
     }
     
     private func removeHttps(urlString: String) -> String {
