@@ -43,7 +43,7 @@ import RealityKit
         }
         .gesture(tapGesture)
         .gesture(pinchGesture)
-        .task {
+        .task(id: githubAPI.repositoryURL) {
             do {
                 try await githubAPI.populate()
             } catch {

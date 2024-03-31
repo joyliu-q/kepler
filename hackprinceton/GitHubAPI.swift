@@ -17,7 +17,6 @@ import Foundation
         self.repositoryURL = repositoryURL
         
         // TODO: auth
-
         // Extract the repository path from the URL
         if let repoPath = GitHubAPI.extractRepoPath(from: repositoryURL) {
             self.repository = Repository(url: "\(baseURL)\(repoPath)", branches: [], commits: [:])
@@ -26,6 +25,11 @@ import Foundation
             print("Invalid repository URL")
             return nil  // Initialize as nil to indicate failure
         }
+    }
+    
+    init(repository: Repository) {
+        self.repositoryURL = repository.url
+        self.repository = repository
     }
     
     func populate() async throws {
@@ -105,6 +109,7 @@ import Foundation
             
         return try decoder.decode(T.self, from: data)
     }
+    
 }
 
 // Custom Errors

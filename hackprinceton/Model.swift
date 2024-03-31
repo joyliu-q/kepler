@@ -99,6 +99,8 @@ struct Repository: Equatable {
             
             return stack.reversed()  // The topologically sorted commits
         }
+    
+    static let dummy = Repository(url: "dummy.com", branches: [], commits: [Sha: Commit]())
 }
 
 struct GitRepositoryAnalysis: Codable {
