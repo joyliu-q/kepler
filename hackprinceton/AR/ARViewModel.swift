@@ -32,7 +32,9 @@ func createEdgeEntity(color: UIColor) -> Entity {
     @Published var selectedCommit: Commit? {
         didSet {
             if selectedCommit != nil, isExpanded {
+                #if os(visionOS)
                 focusSelectedCommit(preserveInitialPosition: true)
+                #endif
             }
         }
     }
@@ -321,6 +323,23 @@ func createEdgeEntity(color: UIColor) -> Entity {
         }
         
         rootEntity.components[ExpansionComponent.self]!.state = .shrinkQueued(initialPosition: i_p, initialScale: i_s)
+    }
+    
+    var initialPosition: SIMD3<Float>?
+    
+    func handleDragGestureChange(translation: Vector3D) {
+        guard !isExpanded else { return }
+        guard rootEntity.components[ExpansionComponent.self]!.state == .notExpanded else { return }
+        
+        if initialPosition == nil {
+            initialPosition = rootEntity.position
+        }
+        
+        rootEntity.position = initialPosition! + SIMD3(x: Float(translation.x), y: Float(translation.y), z: Float(translation.z)) * 0.1 / 400
+    }
+    
+    func handleDragGestureEnd() {
+        initialPosition = nil
     }
     #endif
 }

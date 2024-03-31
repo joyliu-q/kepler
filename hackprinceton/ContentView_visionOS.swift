@@ -74,6 +74,7 @@ import RealityKit
         .environmentObject(arViewModel)
         .gesture(tapGesture)
         .gesture(pinchGesture)
+        // .gesture(dragGesture)
         .task(id: githubAPI.repositoryURL) {
             do {
                 logger.warning("Fetching repo!")
