@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-#if os(iOS)
 import CodeViewer
-#endif
 
 extension PresentationDetent {
     static let customMedium = PresentationDetent.fraction(0.4)
@@ -36,11 +34,9 @@ struct CommitDetailView: View {
     var body: some View {
         
         VStack {
-            HStack {
+            HStack(spacing: 24) {
                 Spacer()
                 Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
-                Spacer()
-                
                 Button(action: {
                     Task {
                         do {
@@ -56,21 +52,19 @@ struct CommitDetailView: View {
                 }) {
                     Image(systemName: "dollarsign.circle.fill")
                         .foregroundColor(.green)
-                }}
-                .padding(.top, 30)
-                .padding(.trailing)
+                }
+                .help("Mint NFT")
+                Spacer()
+            }
                 if (currentPresentationDetent == PresentationDetent.large) {
                     VStack {
                         VStack(alignment: .leading) {
                             TabView {
-                                
-#if os(iOS)
                                 if diff != nil {
                                     CommitDiffView(diff: diff!, commit: commit).tabItem {
                                         Text("View Diff")
                                     }
                                 }
-#endif
                                 
                                 if gptResult != nil {
                                     CommitGptView(gpt: gptResult!, commit: commit).tabItem {
@@ -105,7 +99,7 @@ struct CommitDetailView: View {
                 }
             }
         })
-        .padding(.horizontal)
+        .padding()
         .presentationDetents([.customMedium, .large], selection: $currentPresentationDetent)
         .presentationDragIndicator(.visible)
         .presentationBackgroundInteraction(.enabled)
@@ -242,7 +236,6 @@ extension String: Identifiable {
     }
 }
 
-#if os(iOS)
 /// View for a Diff commits are associated with
 struct CommitDiffView: View {
     var diff: [String]
@@ -252,7 +245,7 @@ struct CommitDiffView: View {
         VStack() {
             CommitMetadataView(commit: commit, hideDescription: true)
             
-            VStack(spacing: 16) {
+            VStack(spacing: 32) {
                 ForEach(diff) { d in
                     CodeViewer(
                         content: .constant(d),
@@ -262,13 +255,13 @@ struct CommitDiffView: View {
                         isReadOnly: true,
                         fontSize: 24
                     )
+                    .clipShape(.rect(cornerRadius: 16))
                 }
-            }.padding(24)
+            }
         }
     }
     
 }
-#endif
 
 struct CommitGptView: View {
     var gpt: String

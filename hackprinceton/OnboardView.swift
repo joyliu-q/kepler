@@ -45,6 +45,10 @@ struct OnboardView: View {
                             onSubmit()
                         }
                     }
+                    .textFieldStyle(.roundedBorder)
+                    .controlSize(.large)
+                    .keyboardType(.URL)
+                    .padding(.bottom)
                 }
                 VStack(spacing: 8) {
                     ForEach(COMMON_URLS, content: {url in
