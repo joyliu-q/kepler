@@ -10,6 +10,7 @@
 		6CEDA60C2BB883A300CBF403 /* Scene.usda in Resources */ = {isa = PBXBuildFile; fileRef = 6CEDA60B2BB8839400CBF403 /* Scene.usda */; };
 		6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 6CEDA60E2BB8910300CBF403 /* OpenAI */; };
 		6CEDA6112BB90FCF00CBF403 /* Multipart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CEDA6102BB90FCF00CBF403 /* Multipart.swift */; };
+		6CEDA6172BB9257700CBF403 /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; productRef = 6CEDA6162BB9257700CBF403 /* CodeViewer */; };
 		8522F6A72BB79871000EC4AC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A62BB79871000EC4AC /* Model.swift */; };
 		8522F6A92BB7A607000EC4AC /* GitHubAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8522F6A82BB7A527000EC4AC /* GitHubAPI.swift */; };
 		85845DDA2BB85B9200B71FF0 /* OpenAIAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DD92BB85B9200B71FF0 /* OpenAIAPI.swift */; };
@@ -18,7 +19,6 @@
 		85845DE32BB898B100B71FF0 /* Verbwire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE22BB898B100B71FF0 /* Verbwire.swift */; };
 		85845DE52BB8D63D00B71FF0 /* OnboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE42BB8D63D00B71FF0 /* OnboardView.swift */; };
 		85845DE72BB8F3F600B71FF0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85845DE62BB8F3F600B71FF0 /* Constants.swift */; };
-		85E008082BB7D114006F499A /* CodeViewer in Frameworks */ = {isa = PBXBuildFile; platformFilter = ios; productRef = 85E008072BB7D114006F499A /* CodeViewer */; };
 		85FA24D32BB78B8200D79DFA /* ProvisionallyNamedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */; };
 		85FA24D52BB78B8200D79DFA /* ContentView_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */; };
 		85FA24D72BB78B8500D79DFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D62BB78B8500D79DFA /* Assets.xcassets */; };
@@ -68,7 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6CEDA60F2BB8910300CBF403 /* OpenAI in Frameworks */,
-				85E008082BB7D114006F499A /* CodeViewer in Frameworks */,
+				6CEDA6172BB9257700CBF403 /* CodeViewer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,8 +164,8 @@
 			);
 			name = hackprinceton;
 			packageProductDependencies = (
-				85E008072BB7D114006F499A /* CodeViewer */,
 				6CEDA60E2BB8910300CBF403 /* OpenAI */,
+				6CEDA6162BB9257700CBF403 /* CodeViewer */,
 			);
 			productName = hackprinceton;
 			productReference = 85FA24CF2BB78B8200D79DFA /* hackprinceton.app */;
@@ -196,8 +196,8 @@
 			);
 			mainGroup = 85FA24C62BB78B8200D79DFA;
 			packageReferences = (
-				85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */,
 				6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */,
+				6CEDA6152BB9257700CBF403 /* XCRemoteSwiftPackageReference "CodeViewer" */,
 			);
 			productRefGroup = 85FA24D02BB78B8200D79DFA /* Products */;
 			projectDirPath = "";
@@ -478,12 +478,12 @@
 				minimumVersion = 0.2.6;
 			};
 		};
-		85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */ = {
+		6CEDA6152BB9257700CBF403 /* XCRemoteSwiftPackageReference "CodeViewer" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dwarvesf/CodeViewer";
+			repositoryURL = "https://github.com/ashleyzhang01/CodeViewer";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.4;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -494,9 +494,9 @@
 			package = 6CEDA60D2BB8910300CBF403 /* XCRemoteSwiftPackageReference "OpenAI" */;
 			productName = OpenAI;
 		};
-		85E008072BB7D114006F499A /* CodeViewer */ = {
+		6CEDA6162BB9257700CBF403 /* CodeViewer */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 85E008062BB7D114006F499A /* XCRemoteSwiftPackageReference "CodeViewer" */;
+			package = 6CEDA6152BB9257700CBF403 /* XCRemoteSwiftPackageReference "CodeViewer" */;
 			productName = CodeViewer;
 		};
 /* End XCSwiftPackageProductDependency section */

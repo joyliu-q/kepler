@@ -1,13 +1,13 @@
 {
-  "originHash" : "c0671191d8ca80dff0c55ee0efb753346aa8ed6d4e994b7670838b70443b2f02",
+  "originHash" : "eb491c656104184c487dc8cfb4665f059045a1a25c1cd1611b58d1c8b5692790",
   "pins" : [
     {
       "identity" : "codeviewer",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/dwarvesf/CodeViewer",
+      "location" : "https://github.com/ashleyzhang01/CodeViewer",
       "state" : {
-        "revision" : "44bd04af81046ce65a4e38dc97a9dd3d387f069e",
-        "version" : "1.2.4"
+        "branch" : "main",
+        "revision" : "10b101492c21f8e0de7bc3c9bf6883b4daef7b7a"
       }
     },
     {

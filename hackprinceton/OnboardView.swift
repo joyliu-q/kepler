@@ -33,6 +33,7 @@ struct OnboardView: View {
                     )
                 Text(Project.title).font(.title).bold()
             }
+            .padding(.top, 20)
             
             VStack() {
                 VStack(alignment: .leading) {
