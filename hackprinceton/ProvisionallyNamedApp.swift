@@ -44,7 +44,7 @@ import OSLog
                     }
                 }
                 
-                if githubAPI.repository != .dummy {
+                if githubAPI.repository.url != Repository.dummy.url {
                     VisionOSAIView(githubAPI: githubAPI)
                 }
             }

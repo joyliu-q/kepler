@@ -42,7 +42,6 @@ import RealityKit
         ZStack {
             
             ARViewContainer(repository: githubAPI.repository)
-                .gesture(dragGesture)
 
             CoachingView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
