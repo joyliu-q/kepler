@@ -12,7 +12,7 @@ import OSLog
 @main
 @MainActor struct ProvisionallyNamedApp: App {
     #if os(visionOS)
-    @State var githubAPI = GitHubAPI(repositoryURL: "https://github.com/pennlabs/penn-mobile-ios")!
+    @State var githubAPI = GitHubAPI(repository: .dummy)
     @StateObject var arViewModel = ARViewModel()
     @Environment(\.openImmersiveSpace) var openImmersiveSpace
     @Environment(\.dismissWindow) var dismissWindow
@@ -44,7 +44,7 @@ import OSLog
                     }
                 }
                 
-                if githubAPI.repository.url != Repository.dummy.url {
+                if githubAPI.repository != .dummy {
                     VisionOSAIView(githubAPI: githubAPI)
                 }
             }

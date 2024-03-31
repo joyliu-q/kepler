@@ -8,5 +8,5 @@
 import Foundation
 
 struct Project {
-    static let title: String = "GitGraph"
+    static let title: String = "Kepler"
 }

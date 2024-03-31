@@ -87,7 +87,7 @@ func createEdgeEntity(color: UIColor) -> Entity {
         entity.components[ModelComponent.self]!.materials = [material]
         
         // Remember to set your CommitComponent to keep commit data associated
-        if !isExpanded || !isActive {
+        if !isExpanded {
             entity.components.set(CollisionComponent(shapes: [.generateSphere(radius: 0.02)]))
         }
         
