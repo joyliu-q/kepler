@@ -15,6 +15,7 @@ extension PresentationDetent {
 struct CommitDetailView: View {
     var commit: Commit
     @State var githubAPI: GitHubAPI
+    @State var isLoading = false
     
     // TODO: request gpt
     @State var gptResult: String?
@@ -40,7 +41,9 @@ struct CommitDetailView: View {
                     Task {
                         do {
                             let commitUrl = "\(githubAPI.repository.url)/commit/\(commit.sha)"
+                            isLoading = true
                             let response = try await mintRepository(commitUrl: commitUrl)
+                            isLoading = false
                             // Handle the response
                             print(response)
                         } catch {
@@ -55,6 +58,9 @@ struct CommitDetailView: View {
                 .help("Mint NFT")
                 Spacer()
             }
+                if (isLoading) {
+                    ProgressView()
+                }
                 if (currentPresentationDetent == PresentationDetent.large) {
                     VStack {
                         VStack(alignment: .leading) {
