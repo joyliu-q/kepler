@@ -11,8 +11,7 @@ import RealityKit
 #if os(iOS)
 @MainActor struct ContentView_iOS : View {
     @State var githubAPI: GitHubAPI = GitHubAPI(repository: Repository.dummy)
-    
-    @State var arViewModel = ARViewModel()
+    @StateObject var arViewModel = ARViewModel()
     @State var feedbackGenerator = UISelectionFeedbackGenerator()
     @State private var showAnalysis: Bool = false
     @State private var analysisResult: OpenAIAPI.AnalysisResult?

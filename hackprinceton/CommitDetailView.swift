@@ -22,6 +22,8 @@ struct CommitDetailView: View {
     // TODO: request gpt
     @State var gptResult: String?
     @State private var currentPresentationDetent = PresentationDetent.customMedium
+    
+    let verbwireAPI = VerbwireAPI()
 
     static let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -34,41 +36,60 @@ struct CommitDetailView: View {
     var body: some View {
         
         VStack {
-            Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
-            
-            if (currentPresentationDetent == PresentationDetent.large) {
-                VStack {
-                    
+            HStack {
+                Spacer()
+                Text(CommitDetailView.dateFormatter.string(from: commit.date)).monospaced().font(.subheadline).foregroundColor(.primary)
+                Spacer()
                 
-                VStack(alignment: .leading) {
-                    TabView {
-                        
-#if os(iOS)
-                        if diff != nil {
-                            CommitDiffView(diff: diff!, commit: commit).tabItem {
-                                Text("View Diff")
-                            }
-                        }
-#endif
-                        
-                        if gptResult != nil {
-                            CommitGptView(gpt: gptResult!, commit: commit).tabItem {
-                                Text("GPT Analyze")
-                            }
-                        }
-                    }.tabViewStyle(.page)
-                }}} else { 
-                    VStack() {
-                        Spacer()
-                        CommitMetadataView(commit: commit)
-                        Spacer()
-                        Button(action: {
-                            currentPresentationDetent = currentPresentationDetent == PresentationDetent.large ? PresentationDetent.customMedium : PresentationDetent.large
-                        }) {
-                            Text("Expand to View Details")
+                Button(action: {
+                    Task {
+                        do {
+                            let commitUrl = "\(githubAPI.repository.url)/commit/\(commit.sha)"
+                            let response = try await verbwireAPI.mintRepository(commitUrl: commitUrl)
+                            // Handle the response
+                            print(response)
+                        } catch {
+                            // Handle error
+                            print(error)
                         }
                     }
-                }
+                }) {
+                    Image(systemName: "dollarsign.circle.fill")
+                        .foregroundColor(.green)
+                }}
+                .padding(.top, 30)
+                .padding(.trailing)
+                if (currentPresentationDetent == PresentationDetent.large) {
+                    VStack {
+                        VStack(alignment: .leading) {
+                            TabView {
+                                
+#if os(iOS)
+                                if diff != nil {
+                                    CommitDiffView(diff: diff!, commit: commit).tabItem {
+                                        Text("View Diff")
+                                    }
+                                }
+#endif
+                                
+                                if gptResult != nil {
+                                    CommitGptView(gpt: gptResult!, commit: commit).tabItem {
+                                        Text("GPT Analyze")
+                                    }
+                                }
+                            }.tabViewStyle(.page)
+                        }}} else {
+                            VStack() {
+                                Spacer()
+                                CommitMetadataView(commit: commit)
+                                Spacer()
+                                Button(action: {
+                                    currentPresentationDetent = currentPresentationDetent == PresentationDetent.large ? PresentationDetent.customMedium : PresentationDetent.large
+                                }) {
+                                    Text("Expand to View Details")
+                                }
+                            }
+            }
         }
         .task({
             if commit.diff != nil {
