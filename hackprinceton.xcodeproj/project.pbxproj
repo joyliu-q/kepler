@@ -25,6 +25,7 @@
 		85FA24DA2BB78B8500D79DFA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */; };
 		8919069E2BB8ACF400CAC0C6 /* BranchLabels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */; };
 		891906A22BB90D3E00CAC0C6 /* ExpansionSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891906A12BB90D3E00CAC0C6 /* ExpansionSystem.swift */; };
+		8921D4DD2BB9266B007CE6FD /* VisionOSAIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8921D4DC2BB9266B007CE6FD /* VisionOSAIView.swift */; };
 		89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987732BB799B300117CF3 /* CommitDetailView.swift */; };
 		89F987772BB7B38600117CF3 /* CommitGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987762BB7B38600117CF3 /* CommitGraph.swift */; };
 		89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F987792BB84EA500117CF3 /* CommitComponent.swift */; };
@@ -52,6 +53,7 @@
 		85FA24D92BB78B8500D79DFA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8919069D2BB8ACF400CAC0C6 /* BranchLabels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BranchLabels.swift; sourceTree = "<group>"; };
 		891906A12BB90D3E00CAC0C6 /* ExpansionSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpansionSystem.swift; sourceTree = "<group>"; };
+		8921D4DC2BB9266B007CE6FD /* VisionOSAIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionOSAIView.swift; sourceTree = "<group>"; };
 		89F987732BB799B300117CF3 /* CommitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitDetailView.swift; sourceTree = "<group>"; };
 		89F987752BB79C1100117CF3 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		89F987762BB7B38600117CF3 /* CommitGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommitGraph.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				89F987842BB879D300117CF3 /* Info.plist */,
 				85FA24D22BB78B8200D79DFA /* ProvisionallyNamedApp.swift */,
+				8921D4DC2BB9266B007CE6FD /* VisionOSAIView.swift */,
 				85FA24D42BB78B8200D79DFA /* ContentView_iOS.swift */,
 				89F987822BB8774800117CF3 /* ContentView_visionOS.swift */,
 				6CEDA60B2BB8839400CBF403 /* Scene.usda */,
@@ -234,6 +237,7 @@
 				89F987742BB799B300117CF3 /* CommitDetailView.swift in Sources */,
 				6CEDA6112BB90FCF00CBF403 /* Multipart.swift in Sources */,
 				85845DDC2BB8784B00B71FF0 /* Audio.swift in Sources */,
+				8921D4DD2BB9266B007CE6FD /* VisionOSAIView.swift in Sources */,
 				89F9877A2BB84EA500117CF3 /* CommitComponent.swift in Sources */,
 				85845DE72BB8F3F600B71FF0 /* Constants.swift in Sources */,
 				89F987832BB8774800117CF3 /* ContentView_visionOS.swift in Sources */,

@@ -32,11 +32,17 @@ import OSLog
         }
         #else
         WindowGroup {
-            OnboardView(githubAPI: $githubAPI) {
-                Task {
-                    await openImmersiveSpace(id: "Graph")
-                    dismissWindow(id: "Commit")
-                    arViewModel.shrink()
+            VStack(spacing: 0) {
+                OnboardView(githubAPI: $githubAPI) {
+                    Task {
+                        await openImmersiveSpace(id: "Graph")
+                        dismissWindow(id: "Commit")
+                        arViewModel.shrink()
+                    }
+                }
+                
+                if githubAPI.repository != .dummy {
+                    VisionOSAIView(githubAPI: githubAPI)
                 }
             }
             .frame(width: 400)

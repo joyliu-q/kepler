@@ -31,6 +31,7 @@ struct OnboardView: View {
                         width: 64,
                         height: 64
                     )
+                    .clipShape(.circle)
                 Text(Project.title).font(.title).bold()
             }
             .padding(.top, 20)
