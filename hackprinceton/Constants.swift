@@ -14,7 +14,7 @@ struct Project {
 }
 
 func GET_EMOJIS() -> [String: String]  {
-    guard let path = Bundle.main.path(forResource: "emoji", ofType: "json") else { fatalError("Cannot find emoji.json") }
+    guard let path = Bundle.main.path(forResource: "emojis", ofType: "json") else { fatalError("Cannot find emoji.json") }
     let data = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
     return try! JSONSerialization.jsonObject(with: data, options: .mutableLeaves) as! Dictionary<String, String>
 }
@@ -23,24 +23,27 @@ let EMOJIS = GET_EMOJIS()
 
 struct EmojiTextView: View {
     @State var textWithEmoji: String
+    @State var extractedText: String
     @State private var emojiImage: UIImage?
     
     init(_ textWithEmoji: String) {
         self.textWithEmoji = textWithEmoji
+        self.extractedText = textWithEmoji
     }
     
     var body: some View {
         HStack {
-            Text(textWithEmoji)
             if let image = emojiImage {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 40, height: 40)
             }
+            Text(extractedText)
         }
         .task(id: textWithEmoji, {
-            try? await loadEmoji(commitMessage: textWithEmoji)
+            emojiImage = nil
+            await loadEmoji(commitMessage: textWithEmoji)
         })
     }
     
@@ -66,7 +69,9 @@ struct EmojiTextView: View {
     
     func loadEmoji(commitMessage: String) async {
         let (emoji, rest) = extractEmojiAndText(from: commitMessage)
-        let emojiURL = URL(string: EMOJIS[emoji!]!)!
+        extractedText = rest
+        guard let emoji, let urlString = EMOJIS[emoji] else { return }
+        guard let emojiURL = URL(string: urlString) else { return }
         let req = URLRequest(url: emojiURL)
         guard let (data, _) = try? await URLSession.shared.data(for: req) else { return }
         guard let image = UIImage(data: data) else { return }
