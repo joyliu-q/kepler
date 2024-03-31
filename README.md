@@ -1,3 +1,5 @@
+HackPrinceton Spring 2024 Winner of Best Developer Tool, Best Use of AI, and Best Application for Interview Process. https://devpost.com/software/otis-gitgraph
+
 ## Inspiration
 As members of Penn Labs, a club at the University of Pennsylvania, teaching Git to newcomers is a recurring task for us. This sparked our interest in exploring how emerging technologies like AR can transform educational experiences, particularly in understanding and utilizing current technologies like Git more effectively.
 
