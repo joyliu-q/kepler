@@ -22,8 +22,8 @@ struct CommitDetailView: View {
     // TODO: request gpt
     @State var gptResult: String?
     @State private var currentPresentationDetent = PresentationDetent.customMedium
-    
-    let verbwireAPI = VerbwireAPI()
+        
+    @Environment(\.openURL) private var openURL
 
     static let dateFormatter: DateFormatter = {
             let formatter = DateFormatter()
@@ -45,7 +45,7 @@ struct CommitDetailView: View {
                     Task {
                         do {
                             let commitUrl = "\(githubAPI.repository.url)/commit/\(commit.sha)"
-                            let response = try await verbwireAPI.mintRepository(commitUrl: commitUrl)
+                            let response = try await mintRepository(commitUrl: commitUrl)
                             // Handle the response
                             print(response)
                         } catch {
@@ -112,6 +112,52 @@ struct CommitDetailView: View {
         .presentationBackgroundInteraction(.enabled)
         .presentationBackground(.regularMaterial)
     }
+    
+    func mintRepository(commitUrl: String) async throws {
+        guard let verbwire_api_key = Bundle.main.object(forInfoDictionaryKey:"VERBWIRE_API") else {
+            fatalError("Missing key")
+        }
+
+        let content = try MultipartBody {
+            try MultipartContent(name: "allowPlatformToOperateToken", content: "true")
+            try MultipartContent(name: "chain", content: "sepolia")
+            try MultipartContent(name: "metadataUrl", content: commitUrl)
+        }
+        
+        let headers = [
+          "accept": "application/json",
+          "content-type": content.contentType,
+          "X-API-Key": verbwire_api_key as! String
+        ]
+
+        let request = NSMutableURLRequest(url: NSURL(string: "https://api.verbwire.com/v1/nft/mint/quickMintFromMetadataUrl")! as URL,
+                                                cachePolicy: .useProtocolCachePolicy,
+                                            timeoutInterval: 10.0)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = headers
+        request.httpBody = try content.assembleData()
+        request.timeoutInterval = 60
+
+        let session = URLSession.shared
+        let (urlResponse, _) = try await URLSession.shared.data(for: request as URLRequest)
+        
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601  // Handling ISO 8601 formatted dates
+            
+        let result = try decoder.decode(MintResponse.self, from: urlResponse)
+        openURL(URL(string: result.quick_mint.blockExplorer)!)
+    }
+}
+
+
+struct MintResponse: Decodable  {
+    struct QuickMintResponse: Decodable {
+        let blockExplorer: String
+        let transactionID: String
+        let transactionHash: String
+        let status: String
+    }
+    let quick_mint: QuickMintResponse
 }
 
 /// View for seeing all Commit Metadata
